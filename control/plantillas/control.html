@@ -2,7 +2,7 @@
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
 	$(document).ready(function(){
-		$("#theslide").prop('checked', "{{ estadoPuerto23 }});
+		$("#theslide").prop('checked', {{ estadoPuerto23 }});
 		$("#theslide").click(function(){
 			var sel=$("#theslide").prop('checked');
 			$.ajax({

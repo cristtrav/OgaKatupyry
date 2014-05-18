@@ -7,9 +7,7 @@ import RPi.GPIO as GPIO
 def control(request):
     estAct23 = GPIO.input(23)
     valorPuerto23 = 'false'
-    if(estAct23 == 0):
-        valorPuerto23 = 'false'
-    else:
+    if(estAct23 == 1):
         valorPuerto23 = 'true'
     return render(request, "control.html", {"estadoPuerto23" : valorPuerto23})
     
