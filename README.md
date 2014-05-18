@@ -8,6 +8,7 @@ Interfaz web desarrollada en Python con Django utiliizando HTML5, JQuery y Found
 Requisitos:
 - Python 2.7
 - Django 1.6.5
+- Libreria RPi.GPIO (https://pypi.python.org/pypi/RPi.GPIO)
 
 Librerias incluidas:
 

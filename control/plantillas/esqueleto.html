@@ -4,11 +4,16 @@
 	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/foundation.css'/>
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/normalize.css'/>
+	<link rel="stylesheet" href="/static/switch.css" />
 	<script src='/static/foundation-5.2.2/js/vendor/modernizr.js'></script>
 	<script src='/static/jquery-2.1.1.js'></script>
 	<title>Oga Katupyry{% block titulo %}{% endblock %}</title>
 </head>
 <body>
+	<script>
+		{% block scripts %}
+		{% endblock %}
+	</script>
 	<div class="off-canvas-wrap"> 
 		<div class="inner-wrap">
 			<nav class="tab-bar">
