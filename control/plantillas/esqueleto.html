@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href='/static/foundation-5.2.2/css/foundation.css'/>
+	<link rel="stylesheet" href='/static/foundation-5.2.2/css/normalize.css'/>
+	<script src='/static/foundation-5.2.2/js/vendor/modernizr.js'></script>
+	<script src='/static/jquery-2.1.1.js'></script>
+	<title>Oga Katupyry{% block titulo %}{% endblock %}</title>
+</head>
+<body>
+	<div class="off-canvas-wrap"> 
+		<div class="inner-wrap">
+			<nav class="tab-bar">
+			 	<section class="left-small">
+					<a class="left-off-canvas-toggle menu-icon" href="#"><span> </span></a>
+				</section>
+				
+				<section class="middle tab-bar-section">
+					<h1 class="title">Oga Katupyry</h1>
+				</section>
+			</nav>
+			
+			<aside class="left-off-canvas-menu">
+				<ul class="off-canvas-list">
+					<li><label>Configuración</label></li>
+					<li><a href="#">Puertos</a></li>
+					<li><a href="#">Usuarios</a></li>
+					<li><a href="#">Acerca</a></li>
+				</ul>
+			</aside>
+			
+			<section class="main-section">
+				{% block cuerpo %}
+				{% endblock %}
+			</section>
+		</div>
+	</div>
+	<script src="/static/foundation-5.2.2/js/foundation.min.js"></script>
+	<script>
+		$(document).foundation();
+	</script>
+</body>
+</html>

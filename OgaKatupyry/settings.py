@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Definicion de carpetas donde estaran los archivos estaticos
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'control','css'),
+    os.path.join(BASE_DIR,'control','js'),
+)
+
+# Definicion de carpetas donde estaran las plantillas HTML
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,'control','plantillas'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

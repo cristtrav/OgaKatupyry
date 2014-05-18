@@ -7,6 +7,6 @@
 <value>manage.py</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
-<path>/${PROJECT_DIR_NAME}</path>
+  <!--<path>/${PROJECT_DIR_NAME}</path>-->
 </pydev_pathproperty>
 </pydev_project>
