@@ -1,7 +1,36 @@
 {% extends "esqueleto.html" %}
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
-	
+	$(document).ready(function(){
+		$("#theslide").prop('checked', "{{ estadoPuerto23 }});
+		$("#theslide").click(function(){
+			var sel=$("#theslide").prop('checked');
+			$.ajax({
+				url: "/accionarControl",
+				type: "POST",
+				dataType: "json",
+				data: {
+					csrfmiddlewaretoken: "{{ csrf_token }}",
+					opcionPuerto: sel,
+				},
+				success: function(json){
+					var estAct = json.estadoActual;					
+					if(estAct == '0'){
+						console.log("Recibido 0");
+						$("#theslide").prop('checked', false);	
+					}else{
+						console.log("Recibido 1");
+						$("#theslide").prop('checked', true);
+					}
+					
+				},
+				error: function(xhr,errmsg,err){
+					alert("Error: "+xhr.status+":"+xhr.responseText);
+				},
+			});
+			return false;
+		});
+	});
 {% endblock %}
 {% block cuerpo %}
 	<row class="row">
@@ -9,10 +38,12 @@
 				Puerto 23
 		</div>
 		<div class="small-9 columns">
-			<div class="slideThree">  
-      			<input type="checkbox" value="None" id="slideThree" name="check" checked/>
-      			<label for="slideThree"></label>
-    		</div>
+			<form method="post">{% csrf_token %}
+				<div class="slideThree">  
+	      			<input type="checkbox" value="None" id="theslide" name="theslide" checked />
+	      			<label for="theslide"></label>
+	    		</div>
+    		</form>
 		</div>
 	</row>
 {% endblock %}
