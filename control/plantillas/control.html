@@ -2,9 +2,10 @@
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
 	$(document).ready(function(){
-		$("#theslide").prop('checked', {{ estadoPuerto23 }});
-		$("#theslide").click(function(){
-			var sel=$("#theslide").prop('checked');
+		/*$("#theslide").prop('checked', false);*/
+		{% for puerto in puertos %}
+		$("#puerto{{ puerto.nropuerto }}").click(function(){
+			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
 			$.ajax({
 				url: "/accionarControl",
 				type: "POST",
@@ -12,15 +13,16 @@
 				data: {
 					csrfmiddlewaretoken: "{{ csrf_token }}",
 					opcionPuerto: sel,
+					numeroPuerto: {{ puerto.nropuerto }}
 				},
 				success: function(json){
 					var estAct = json.estadoActual;					
 					if(estAct == '0'){
-						console.log("Recibido 0");
-						$("#theslide").prop('checked', false);	
+						console.log("Recibido 0. Puerto: "+json.puertoActual);
+						$("#puerto"+json.puertoActual).prop('checked', false);	
 					}else{
-						console.log("Recibido 1");
-						$("#theslide").prop('checked', true);
+						console.log("Recibido 1. Puerto: "+json.puertoActual);
+						$("#puerto"+json.puertoActual).prop('checked', true);
 					}
 					
 				},
@@ -30,20 +32,23 @@
 			});
 			return false;
 		});
+		{% endfor %}
 	});
 {% endblock %}
 {% block cuerpo %}
+	{% for puerto in puertos %}
 	<row class="row">
 		<div class="small-3 columns">			
-				Puerto 23
+				{{ puerto.descripcion }}
 		</div>
 		<div class="small-9 columns">
 			<form method="post">{% csrf_token %}
 				<div class="slideThree">  
-	      			<input type="checkbox" value="None" id="theslide" name="theslide" checked />
-	      			<label for="theslide"></label>
+	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" checked />
+	      			<label for="puerto{{ puerto.nropuerto }}"></label>
 	    		</div>
     		</form>
 		</div>
 	</row>
+	{% endfor %}
 {% endblock %}

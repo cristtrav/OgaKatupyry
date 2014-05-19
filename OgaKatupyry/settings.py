@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Definicion de carpetas donde estaran los archivos estaticos
@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'control',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,7 +93,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#DESCOMENTAR LAS SIGUEIENTES LINEAS CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-GPIO.setup(23, GPIO.OUT)
+#GPIO.setmode(GPIO.BOARD)
+#GPIO.setwarnings(False)
+#GPIO.setup(23, GPIO.OUT)
