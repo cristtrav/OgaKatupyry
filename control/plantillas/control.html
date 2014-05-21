@@ -38,10 +38,12 @@
 {% block cuerpo %}
 	{% for puerto in puertos %}
 	<row class="row">
-		<div class="small-3 columns">			
-				{{ puerto.descripcion }}
+		<div class="small-2 columns">
+			<div class="descripcionSwitch">			
+				<h3>{{ puerto.descripcion }}</h3>
+			</div>
 		</div>
-		<div class="small-9 columns">
+		<div class="small-10 columns">
 			<form method="post">{% csrf_token %}
 				<div class="slideThree">  
 	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" checked />
