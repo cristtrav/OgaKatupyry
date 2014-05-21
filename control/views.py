@@ -36,5 +36,9 @@ def accionarControl(request):
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")
     else:
         print("No existe clave 'opcionPuerto'")
-        return render(request, "control.html")
+        cfgpuertos = configPuerto.objects.all()
+        return render(request, "control.html", {"puertos" : cfgpuertos})
+
+def acerca(request):
+    return render(request, 'acerca.html')
     

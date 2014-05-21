@@ -7,7 +7,7 @@
 		$("#puerto{{ puerto.nropuerto }}").click(function(){
 			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
 			$.ajax({
-				url: "/accionarControl",
+				url: "/accionarControl/",
 				type: "POST",
 				dataType: "json",
 				data: {

@@ -17,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'control','css'),
     os.path.join(BASE_DIR,'control','js'),
+    os.path.join(BASE_DIR,'control','imagenes'),
 )
 
 # Definicion de carpetas donde estaran las plantillas HTML
