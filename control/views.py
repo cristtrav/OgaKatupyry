@@ -9,6 +9,9 @@ from models import configPuerto
 def control(request):    
     cfgpuertos = configPuerto.objects.all()
     return render(request, "control.html", {"puertos" : cfgpuertos})
+
+def login (request):
+    return render(request, "login.html")
     
 def accionarControl(request):
     print("accionarControl llamado")    
