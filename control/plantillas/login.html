@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html>
-<!--Creado 2014-20-04 -->
-<head>
+{% extends "esqueleto.html" %}
+{% block titulo %} - Usuario{% endblock %}
+{% block scripts %}
+
+
+{% endblock %}
+{% block cuerpo %}
 <link rel="stylesheet" href="/static/style.css" media="screen" type="text/css" />
-</head>
-<body>
-<div class="container trans">
-
-    <div class="login">
-	<h1>Iniciar Sesion</h1>
-      <form method="post" action="">
-
-        <p><input type="text" name="login" value="" placeholder="Usuario"></p>
-        <p><input type="password" name="password" value="" placeholder="Password"></p>
-        <p class="remember_me"></p>
-        <p class="submit"><input type="submit" name="commit" value="Login"></p>
-      </form>
-    </div>
-  </div>
-</body>
-</html>
+<div id="espacio"></div>
+<div id="contenedor">
+		<div id="text1"> <h2><b>Iniciar Sesion</b></h2></div>
+      			<form method="post" action="">
+        			<p><input type="text" name="login" value="" placeholder="Usuario"></p>
+        			<p><input type="password" name="password" value="" placeholder="Password"></p>
+        			<p class="submit"><input type="submit" name="commit" value="Login"></p>
+      			</form>
+</div>
+{% endblock %}

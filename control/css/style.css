@@ -1,31 +1,17 @@
+#espacio{
+	margin-top: 25px;
+}
+#contenedor{
+	border: thick solid #000;
+	border-radius: 7px;
+	width: 300px;
+  	height: 300px;
+  	text-align: center;
+    margin: auto;
+}
 
-/* login div */
-.login {
-  background-color: #003333;
-  border-radius: 7px;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  padding: 0;
-}
-.login {
-  /*opacity: 0.5;*/
-  filter:  alpha(opacity=50);
-}
-	
-/* login cabecera */
-
-h1 {
-  color: #000;
-  text-align: center;
-  font-size: 30px;
-  font-style:normal;
-  padding-top: 20px;
-  opacity: 999;
-}
-/* div contenedor form */
-form {
-  text-align: center;
+#text1{
+	 text-align: center;
 }
 
 /* usuario y password */
@@ -34,16 +20,10 @@ input:not([type="button"]) {
   color: #666;
   opacity: 7;
   border-radius: 5px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 10px;
   width: 150px;
-  height:10px;
-  transition: all .3s;
-  -webkit-ransition: all .3s;
-  -moz-ransition: all .3s;
+  margin: auto;
+  text-align: center;
 }
-
 input:focus:not([type="button"]) {
   border: 1px solid #CC0000;
   opacity: 1;
@@ -52,30 +32,15 @@ input:focus:not([type="button"]) {
   color: #CC0000;
 }
 
-/* boton submit */
-input[type="button"] {
-  padding: 15px 25px;
-  font-size: 22px;
-  width: 420px;
-  color: #fff;
-  position: relative;
-  display: inline-block;
-  background-color: #2ecc71;
-  box-shadow: 0px 5px 0px 0px #15B358;
-  outline: none;
-  border: none;
-}
-
-input[type="button"]:active {
-  transform: translate(0px, 5px);
-  -webkit-transform: translate(0px, 5px);
-  box-shadow: 0px 0px 0px 0px;
-}
-
-input[type="button"]:hover {
-  background-color: #48E68B;
-}
 input[placeholder] {
     color:    #acacac;
     font-weight: bold;
+    }
+  
+input[type="button"]{
+  padding: 15px 25px;
+  font-size: 22px;
 }
+
+	
+
