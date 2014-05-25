@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto
 
@@ -12,9 +12,24 @@ except ImportError:
 
 # Create your views here.
 def control(request):    
-    cfgpuertos = configPuerto.objects.all()
-    return render(request, "control.html", {"puertos" : cfgpuertos})
-    
+    cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
+    cfgpuertos = []#Se crea un array para enviar el estado actual de los puertos 
+    for p in cfgpuertosbd:#Se recorren todos los puertos obtenidos
+        estadoPuerto = 'false'#se carga un valor de estado por default
+        if gpio_disponible:#se consulta si esta instalada la libreria RPi.GPIO
+            auxEstado = GPIO.input(p.nropuerto)#se lee el estado del puerto actual
+            if auxEstado == 1:#Si el estado es activo
+                estadoPuerto = 'true'#se carga el valor 'true'
+        else:#Si no esta instalada la libreria RPi.GPIO
+            print("No se puede leer estado del puerto. RPi.GPIO no instalado")
+        auxPuerto = {#se crea un objeto JSON con el numero de puerto y el estado para cambiar los controles de la pagina
+                     "puerto": str(p.nropuerto),
+                     "estado": estadoPuerto,
+        }
+        cfgpuertos.append(auxPuerto)#se agrega el objeto al Array
+    #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
+    return render(request, "control.html", {"cfgpuertos" : cfgpuertos,"puertos" : cfgpuertosbd,})
+
 def accionarControl(request):
     print("accionarControl llamado")    
     if request.POST.has_key('opcionPuerto') and request.POST.has_key('numeroPuerto'):
@@ -52,9 +67,7 @@ def accionarControl(request):
         }
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")#Se envia el objeto JSON
     else:#Ocurre si no se eviaron datos para un puerto
-        print("No existe clave 'opcionPuerto'")
-        cfgpuertos = configPuerto.objects.all()
-        return render(request, "control.html", {"puertos" : cfgpuertos})
+        return HttpResponseRedirect("/control/")
 
 def acerca(request):
     return render(request, 'acerca.html')
