@@ -3,8 +3,9 @@
  width: 120px;/*original 80px*/
  height: 46px;/*original 26px*/
   background: #333;
- margin: 10px auto;/*original 20px*/
-  position: relative;
+ margin-top: 10px;/*margin: original 20px auto*/
+  position: relative;/*original relative*/
+ left: 0px;
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
   border-radius: 50px; 
@@ -63,7 +64,6 @@
 }
 
 .descripcionSwitch {
-	width: 100%;
-	height: 100%;
-  	margin-top: 14px;
+
+  	margin-top: auto;
 }
