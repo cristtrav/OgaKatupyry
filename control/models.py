@@ -9,6 +9,6 @@ class configPuerto(models.Model):
 class usuario(models.Model):
     usuario = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=100)
-    def _unicode_(self):
-        return self.usuario
+    #def _unicode_(self):
+     #   return self.usuario
     

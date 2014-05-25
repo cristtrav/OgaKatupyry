@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
-from models import configPuerto
+from models import configPuerto, usuario
 #DESCOMENTAR LA SIGUEIENTE LINEA CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 #import RPi.GPIO as GPIO
 
@@ -9,9 +9,6 @@ from models import configPuerto
 def control(request):    
     cfgpuertos = configPuerto.objects.all()
     return render(request, "control.html", {"puertos" : cfgpuertos})
-
-def login (request):
-    return render(request, "login.html")
     
 def accionarControl(request):
     print("accionarControl llamado")    
@@ -44,4 +41,23 @@ def accionarControl(request):
 
 def acerca(request):
     return render(request, 'acerca.html')
+        
     
+def loginget(request):   
+    if request.method == "POST":
+        
+        if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
+             x=request.POST.get('usuariof')
+             y=request.POST.get('passwordf')
+             print("usuariof"+x)
+             print("passwordf"+y)
+        return render(request, 'login.html')
+    else:
+        return render(request, 'login.html')
+        print("es el get")
+     
+    #usr = usuario.objects.all()
+    #return render(request, 'login.html', {"users": usr})    
+
+def log(request):
+    return render(request, 'login.html')
