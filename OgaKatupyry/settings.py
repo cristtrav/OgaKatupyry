@@ -102,7 +102,7 @@ STATIC_URL = '/static/'
 
 #DESCOMENTAR LAS SIGUEIENTES LINEAS CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 from control.models import configPuerto#Importo el modelo de configuracion de puertos para habilitar
-
+from django.db import OperationalError#Importada libreria de base dedatos de django
 if gpio_disponible:#Compruebo si la libreria RPi.GPIO esta instalada
     
     print("RPi.GPIO instalado")

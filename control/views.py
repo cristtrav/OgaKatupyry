@@ -46,7 +46,7 @@ def accionarControl(request):
         else:#Si no esta instalada la libreria RPi.GPIO se muestra un mensaje
             print("No se puede leer estado del puerto: RPi.GPIO no instalado")
         
-        infoPuerto = {#Se crea el objeto JSON para enviar a la página
+        infoPuerto = {#Se crea el objeto JSON para enviar a la pagina
             "estadoActual": estadoPuerto,
             "puertoActual": nrp,
         }
