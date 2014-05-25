@@ -103,12 +103,12 @@ STATIC_URL = '/static/'
 #DESCOMENTAR LAS SIGUEIENTES LINEAS CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 from control.models import configPuerto#Importo el modelo de configuracion de puertos para habilitar
 
-if gpio_disponible:#Compruebo si la libreria RPi.GPIO está instalada
+if gpio_disponible:#Compruebo si la libreria RPi.GPIO esta instalada
     print("RPi.GPIO instalado")
     GPIO.setmode(GPIO.BOARD)#Establezco el modo de numeracion de los puertos
     GPIO.setwarnings(False)#Deshabilitar las advertencias
     pts = configPuerto.objects.all()#Obtener los puertos configurados en la base de datos
     for p in pts:#Iterar el resultado de la consulta
         GPIO.setup(p.nropuerto, GPIO.OUT)
-else:#Si la libreria RPi.GPIO no está instalada muestro un mensaje
+else:#Si la libreria RPi.GPIO no esta instalada muestro un mensaje
     print("RPi.GPIO No instalado")
