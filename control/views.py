@@ -19,10 +19,10 @@ def accionarControl(request):
     print("accionarControl llamado")    
     if request.POST.has_key('opcionPuerto') and request.POST.has_key('numeroPuerto'):
         opp = request.POST.get('opcionPuerto', 'nada')#Se guarda la accion a realizar con el puerto
-        nrp = request.POST.get('numeroPuerto')#Se guarda el puerto actual a operar
+        nrp = int(request.POST.get('numeroPuerto'))#Se guarda el puerto actual a operar
         
         print ("Dato recibido: "+opp)#Se imprime la accion a realizar
-        print ("Numero puerto recibido: "+nrp)#Se imprime el numero de puerto recibido
+        print ("Numero puerto recibido: "+str(nrp))#Se imprime el numero de puerto recibido
         
         estadoPuerto = '0';#Se creea la variable para guardar el estado del puerto a enviar
         if(opp == 'true'):#Se comprueba la opcion enviada por la pagina
