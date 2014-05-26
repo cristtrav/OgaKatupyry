@@ -2,7 +2,12 @@
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
 	$(document).ready(function(){
-		/*$("#theslide").prop('checked', false);*/
+		
+		{% for cfgp in cfgpuertos %}
+			$("#puerto{{ cfgp.puerto }}").prop('checked', {{ cfgp.estado }});
+			console.log("Cargando configuracion de puertos {{ cfgp.puerto }}, {{ cfgp.estado }}");
+		{% endfor %}
+		
 		{% for puerto in puertos %}
 		$("#puerto{{ puerto.nropuerto }}").click(function(){
 			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
@@ -38,19 +43,20 @@
 {% block cuerpo %}
 	{% for puerto in puertos %}
 	<row class="row">
-		<div class="small-2 columns">
+		<div class="medium-8 columns">
 			<div class="descripcionSwitch">			
-				<h3>{{ puerto.descripcion }}</h3>
+				<h2>{{ puerto.descripcion }}</h2>
 			</div>
 		</div>
-		<div class="small-10 columns">
+		<div class="medium-4 columns">
 			<form method="post">{% csrf_token %}
 				<div class="slideThree">  
-	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" checked />
+	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" />
 	      			<label for="puerto{{ puerto.nropuerto }}"></label>
 	    		</div>
     		</form>
 		</div>
 	</row>
+	<hr />
 	{% endfor %}
 {% endblock %}

@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 import os
-#import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+    gpio_disponible = True
+except ImportError:
+    gpio_disponible = False
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Definicion de carpetas donde estaran los archivos estaticos
@@ -95,7 +101,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #DESCOMENTAR LAS SIGUEIENTES LINEAS CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
-
-#GPIO.setmode(GPIO.BOARD)
-#GPIO.setwarnings(False)
-#GPIO.setup(23, GPIO.OUT)
+from control.models import configPuerto#Importo el modelo de configuracion de puertos para habilitar
+from django.db import OperationalError#Importada libreria de base dedatos de django
+if gpio_disponible:#Compruebo si la libreria RPi.GPIO esta instalada
+    
+    print("RPi.GPIO instalado")
+    GPIO.setmode(GPIO.BOARD)#Establezco el modo de numeracion de los puertos
+    GPIO.setwarnings(False)#Deshabilitar las advertencias
+    try:#Comprobar si existe la base de datos o la tabla
+        pts = configPuerto.objects.all()#Obtener los puertos configurados en la base de datos
+        for p in pts:#Iterar el resultado de la consulta
+            GPIO.setup(p.nropuerto, GPIO.OUT)
+    except OperationalError:
+        print ("Tabla o base de datos no encontrada")
+else:#Si la libreria RPi.GPIO no esta instalada muestro un mensaje
+    print("RPi.GPIO No instalado")
