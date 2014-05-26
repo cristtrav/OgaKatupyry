@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto, usuario
+from django.core.exceptions import ObjectDoesNotExist
 #DESCOMENTAR LA SIGUEIENTE LINEA CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 #import RPi.GPIO as GPIO
 
@@ -9,7 +10,7 @@ from models import configPuerto, usuario
 def control(request):    
     cfgpuertos = configPuerto.objects.all()
     return render(request, "control.html", {"puertos" : cfgpuertos})
-    
+     
 def accionarControl(request):
     print("accionarControl llamado")    
     if request.POST.has_key('opcionPuerto') and request.POST.has_key('numeroPuerto'):
@@ -43,21 +44,35 @@ def acerca(request):
     return render(request, 'acerca.html')
         
     
-def loginget(request):   
+def loginget(request): 
+# si hemos dado submitted en el form  
     if request.method == "POST":
-        
-        if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
-             x=request.POST.get('usuariof')
-             y=request.POST.get('passwordf')
-             print("usuariof"+x)
-             print("passwordf"+y)
-        return render(request, 'login.html')
+        #testeamos si las cookie estan funcionando
+        if request.session.test_cookie_worked():
+        # Elimina las cookies
+                        request.session.delete_test_cookie()
+                        if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
+                             x=request.POST.get('usuariof')
+                             y=request.POST.get('passwordf')
+                            # print("llega aqui!!")
+                             try:
+                                 usr = usuario.objects.get(usuario=x)
+                                 print("password:"+usr.password)
+                                 print("usuario<<<<<"+usr.usuario)
+                                 return HttpResponseRedirect('/control/')
+                             except ObjectDoesNotExist:
+                                 print("usuario no existe")
+                                 return render(request, 'login.html') 
+                                 
+        else:
+             return HttpResponse("Porfavor active las cookies, E intente nuevamente")                     
+        request.session.set_test_cookie()
     else:
-        return render(request, 'login.html')
-        print("es el get")
+           request.session.set_test_cookie()
+           return render(request, 'login.html')
+
+
      
     #usr = usuario.objects.all()
     #return render(request, 'login.html', {"users": usr})    
 
-def log(request):
-    return render(request, 'login.html')

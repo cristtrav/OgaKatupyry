@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from control.views import control, accionarControl, acerca, loginget, log
+from control.views import control, accionarControl, acerca, loginget
 
 
 #admin.autodiscover()
