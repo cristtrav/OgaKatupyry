@@ -111,7 +111,10 @@ if gpio_disponible:#Compruebo si la libreria RPi.GPIO esta instalada
     try:#Comprobar si existe la base de datos o la tabla
         pts = configPuerto.objects.all()#Obtener los puertos configurados en la base de datos
         for p in pts:#Iterar el resultado de la consulta
-            GPIO.setup(p.nropuerto, GPIO.OUT)
+            GPIO.setup(p.puertoon, GPIO.OUT)# se establece el puerto de encendido como salida
+            GPIO.setup(p.puertooff, GPIO.OUT)# se establece el puerto de apagado como salida
+            GPIO.output(p.puertoon, GPIO.HIGH)# EL puerto estara en reposo en ALTO
+            GPIO.output(p.puertooff, GPIO.HIGH)# EL puerto estara en reposo en ALTO
     except OperationalError:
         print ("Tabla o base de datos no encontrada")
 else:#Si la libreria RPi.GPIO no esta instalada muestro un mensaje

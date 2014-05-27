@@ -2,34 +2,51 @@
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
 	$(document).ready(function(){
-		
+		/*
 		{% for cfgp in cfgpuertos %}
 			$("#puerto{{ cfgp.puerto }}").prop('checked', {{ cfgp.estado }});
 			console.log("Cargando configuracion de puertos {{ cfgp.puerto }}, {{ cfgp.estado }}");
 		{% endfor %}
-		
+		*/
 		{% for puerto in puertos %}
-		$("#puerto{{ puerto.nropuerto }}").click(function(){
-			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
+		/*Javascript para los botones de encendido*/
+		$("#puerto{{ puerto.puertoon }}").click(function(){
 			$.ajax({
 				url: "/accionarControl/",
 				type: "POST",
 				dataType: "json",
 				data: {
 					csrfmiddlewaretoken: "{{ csrf_token }}",
-					opcionPuerto: sel,
-					numeroPuerto: {{ puerto.nropuerto }}
+					numeroPuerto: {{ puerto.puertoon }}
 				},
 				success: function(json){
-					var estAct = json.estadoActual;					
-					if(estAct == '0'){
-						console.log("Recibido 0. Puerto: "+json.puertoActual);
-						$("#puerto"+json.puertoActual).prop('checked', false);	
-					}else{
-						console.log("Recibido 1. Puerto: "+json.puertoActual);
-						$("#puerto"+json.puertoActual).prop('checked', true);
-					}
-					
+					console.log("Puerto "+json.puertoActual+" activado");
+					$("#accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}").append('Activacion')
+					$("#dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}").append('{{ puerto.descripcion }}')
+					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show();
+				},
+				error: function(xhr,errmsg,err){
+					alert("Error: "+xhr.status+":"+xhr.responseText);
+				},
+			});
+			return false;
+		});
+		/*Javascript para los botones de apagado*/
+		$("#puerto{{ puerto.puertooff }}").click(function(){
+			$.ajax({
+				url: "/accionarControl/",
+				type: "POST",
+				dataType: "json",
+				data: {
+					csrfmiddlewaretoken: "{{ csrf_token }}",
+					/*accionPuerto: 'desactivacion',*/
+					numeroPuerto: {{ puerto.puertooff }}
+				},
+				success: function(json){
+					console.log("Puerto "+json.puertoActual+" activado")
+					$("#accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}").append('Desactivacion')
+					$("#dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}").append('{{ puerto.descripcion }}')
+					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show();
 				},
 				error: function(xhr,errmsg,err){
 					alert("Error: "+xhr.status+":"+xhr.responseText);
@@ -42,20 +59,27 @@
 {% endblock %}
 {% block cuerpo %}
 	{% for puerto in puertos %}
+	<div id="alerta{{ puerto.puertoon }}{{ puerto.puertooff }}" data-alert class="alert-box success hide" id="thealerta" style="display: none;">
+		Señal de <span id="accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}"></span> enviada a <span id="dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}"></span>
+		<a href="#" class="close">&times;</a>
+	</div>
 	<row class="row">
 		<div class="medium-8 columns">
 			<div class="descripcionSwitch">			
-				<h2>{{ puerto.descripcion }}</h2>
+				<h3>{{ puerto.descripcion }}</h3>
 			</div>
 		</div>
-		<div class="medium-4 columns">
-			<form method="post">{% csrf_token %}
-				<div class="slideThree">  
+		<form method="post">{% csrf_token %}
+			
+			<div class="medium-4 columns">
+				<a id="puerto{{ puerto.puertoon }}" href="#" class="button small">ON</a>
+				<a id="puerto{{ puerto.puertooff }}" href="#" class="button small">OFF</a>
+				<!--<div class="slideThree">  
 	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" />
 	      			<label for="puerto{{ puerto.nropuerto }}"></label>
-	    		</div>
-    		</form>
-		</div>
+	   			</div>-->
+			</div>
+		</form>
 	</row>
 	<hr />
 	{% endfor %}

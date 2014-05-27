@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto
+import time
 
 #Se comprueba si esta instalada la libreria RPi.GPIO
 try:
@@ -13,6 +14,7 @@ except ImportError:
 # Create your views here.
 def control(request):    
     cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
+    '''
     cfgpuertos = []#Se crea un array para enviar el estado actual de los puertos 
     for p in cfgpuertosbd:#Se recorren todos los puertos obtenidos
         estadoPuerto = 'false'#se carga un valor de estado por default
@@ -27,18 +29,26 @@ def control(request):
                      "estado": estadoPuerto,
         }
         cfgpuertos.append(auxPuerto)#se agrega el objeto al Array
+        '''
     #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
-    return render(request, "control.html", {"cfgpuertos" : cfgpuertos,"puertos" : cfgpuertosbd,})
+    return render(request, "control.html", {"puertos" : cfgpuertosbd,})
 
 def accionarControl(request):
     print("accionarControl llamado")    
-    if request.POST.has_key('opcionPuerto') and request.POST.has_key('numeroPuerto'):
-        opp = request.POST.get('opcionPuerto', 'nada')#Se guarda la accion a realizar con el puerto
+    if request.POST.has_key('numeroPuerto'):
+        #app = request.POST.get('accionPuerto', 'nada')#Se guarda la accion a realizar con el puerto
         nrp = int(request.POST.get('numeroPuerto'))#Se guarda el puerto actual a operar
         
-        print ("Dato recibido: "+opp)#Se imprime la accion a realizar
+        #print ("Dato recibido: "+opp)#Se imprime la accion a realizar
         print ("Numero puerto recibido: "+str(nrp))#Se imprime el numero de puerto recibido
         
+        if(gpio_disponible):
+            GPIO.output(nrp, GPIO.LOW)
+            time.sleep(10)
+            GPIO.output(nrp, GPIO.HIGH)
+        else:
+            print("No se puede activar el puerto: RPi.GPIO no instalado")
+        '''
         estadoPuerto = '0';#Se creea la variable para guardar el estado del puerto a enviar
         if(opp == 'true'):#Se comprueba la opcion enviada por la pagina
             estadoPuerto = '1'
@@ -60,9 +70,9 @@ def accionarControl(request):
             estadoPuerto = str(GPIO.input(nrp))#Se lee el estado actual del puerto actual
         else:#Si no esta instalada la libreria RPi.GPIO se muestra un mensaje
             print("No se puede leer estado del puerto: RPi.GPIO no instalado")
-        
+        '''
         infoPuerto = {#Se crea el objeto JSON para enviar a la pagina
-            "estadoActual": estadoPuerto,
+            #"accionPuerto": app,
             "puertoActual": nrp,
         }
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")#Se envia el objeto JSON
