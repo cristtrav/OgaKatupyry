@@ -6,4 +6,5 @@ class configPuerto(models.Model):
     puertoon = models.IntegerField()
     puertooff = models.IntegerField()
     descripcion = models.CharField(max_length=50)
+    ultestado = models.BooleanField(default=False)
     

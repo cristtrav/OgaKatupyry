@@ -19,9 +19,23 @@ def control(request):
 
 def accionarControl(request):
     print("accionarControl llamado")    
-    if request.POST.has_key('numeroPuerto'):
+    if request.POST.has_key('numeroPuerto') and request.POST.has_key('idregistro'):
         nrp = int(request.POST.get('numeroPuerto'))#Se guarda el puerto actual a operar
+        idreg = int(request.POST.get('idregistro'))
+        
         print ("Numero puerto recibido: "+str(nrp))#Se imprime el numero de puerto recibido
+        print ("id recibido: "+str(idreg))#Se imprime el numero de puerto recibido
+        
+        regActual = configPuerto.objects.filter(id = idreg).first()
+        
+        print ("Id obtenido de la bd: "+str(regActual.id))
+        
+        if(nrp==regActual.puertoon):
+            regActual.ultestado = True
+            regActual.save()
+        elif(nrp == regActual.puertooff):
+            regActual.ultestado = False
+            regActual.save()
         
         if(gpio_disponible):
             GPIO.output(nrp, GPIO.LOW)
@@ -35,6 +49,7 @@ def accionarControl(request):
         time.sleep(2)
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")#Se envia el objeto JSON
     else:#Ocurre si no se eviaron datos para un puerto
+        print("No se encontraron todas las claves en el post")
         return HttpResponseRedirect("/control/")
 
 def acerca(request):

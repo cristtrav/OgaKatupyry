@@ -19,7 +19,8 @@
 				dataType: "json",
 				data: {
 					csrfmiddlewaretoken: "{{ csrf_token }}",
-					numeroPuerto: {{ puerto.puertoon }}
+					numeroPuerto: {{ puerto.puertoon }},
+					idregistro : {{ puerto.id }},
 				},
 				success: function(json){
 					$("#ajaxStatus").hide();
@@ -38,6 +39,7 @@
 					
 				},
 				error: function(xhr,errmsg,err){
+					$("#ajaxStatus").hide();
 					alert("Error: "+xhr.status+":"+xhr.responseText);
 				},
 			});
@@ -55,9 +57,9 @@
 				type: "POST",
 				dataType: "json",
 				data: {
-					csrfmiddlewaretoken: "{{ csrf_token }}",
-					/*accionPuerto: 'desactivacion',*/
-					numeroPuerto: {{ puerto.puertooff }}
+					csrfmiddlewaretoken: "{{ csrf_token }}",					
+					numeroPuerto: {{ puerto.puertooff }},
+					idregistro : {{ puerto.id }},
 				},
 				success: function(json){
 					$("#ajaxStatus").hide();
@@ -75,6 +77,7 @@
 					}, 5000);
 				},
 				error: function(xhr,errmsg,err){
+					$("#ajaxStatus").hide();
 					alert("Error: "+xhr.status+":"+xhr.responseText);
 				},
 			});
@@ -99,7 +102,13 @@
 			<div class="medium-5 columns">
 				<a id="puerto{{ puerto.puertoon }}" href="#" class="button small">ON</a>
 				<a id="puerto{{ puerto.puertooff }}" href="#" class="button small">OFF</a>
-				<img id="img{{ puerto.puertoon }}{{ puerto.puertooff }}" src="/static/botonOn.png" width="64" height="64"/>
+				<img id="img{{ puerto.puertoon }}{{ puerto.puertooff }}" src="
+				{% if puerto.ultestado == True %}
+				/static/botonOn.png
+				{% else %}
+				/static/botonOff.png
+				{% endif %}
+				" width="64" height="64"/>
 				<!--<div class="slideThree">  
 	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" />
 	      			<label for="puerto{{ puerto.nropuerto }}"></label>
