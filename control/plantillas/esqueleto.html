@@ -11,11 +11,14 @@
 </head>
 <body>
 	<script>
-	$(window).resize(function(){
-		$('.off-canvas-wrap,#main-nav,.exit-off-canvas').height($(this).height());
-	});
-		{% block scripts %}
-		{% endblock %}
+		$(document).ready(function(){
+			$('.off-canvas-wrap,#main-nav,.exit-off-canvas').height($(this).height());
+			$(window).resize(function(){
+				$('.off-canvas-wrap,#main-nav,.exit-off-canvas').height($(this).height());
+			});
+			{% block scripts %}
+			{% endblock %}
+		});
 	</script>
 	<div class="off-canvas-wrap"> 
 		<div class="inner-wrap"  style="min-height: 100%">

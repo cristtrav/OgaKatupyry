@@ -32,6 +32,7 @@ def accionarControl(request):
         infoPuerto = {#Se crea el objeto JSON para enviar a la pagina
             "puertoActual": nrp,
         }
+        time.sleep(2)
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")#Se envia el objeto JSON
     else:#Ocurre si no se eviaron datos para un puerto
         return HttpResponseRedirect("/control/")
