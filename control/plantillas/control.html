@@ -11,6 +11,7 @@
 		{% for puerto in puertos %}
 		/*Javascript para los botones de encendido*/
 		$("#puerto{{ puerto.puertoon }}").click(function(){
+			$("#ajaxStatus").show();
 			$.ajax({
 				url: "/accionarControl/",
 				type: "POST",
@@ -20,10 +21,9 @@
 					numeroPuerto: {{ puerto.puertoon }}
 				},
 				success: function(json){
+					$("#ajaxStatus").hide();
 					console.log("Puerto "+json.puertoActual+" activado");
-					$("#accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}").append('Activacion')
-					$("#dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}").append('{{ puerto.descripcion }}')
-					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show();
+					$("#img{{ puerto.puertoon }}{{ puerto.puertooff }}").prop('src', '/static/botonOn.png');
 				},
 				error: function(xhr,errmsg,err){
 					alert("Error: "+xhr.status+":"+xhr.responseText);
@@ -33,6 +33,7 @@
 		});
 		/*Javascript para los botones de apagado*/
 		$("#puerto{{ puerto.puertooff }}").click(function(){
+			$("#ajaxStatus").show();
 			$.ajax({
 				url: "/accionarControl/",
 				type: "POST",
@@ -43,10 +44,9 @@
 					numeroPuerto: {{ puerto.puertooff }}
 				},
 				success: function(json){
+					$("#ajaxStatus").hide();
 					console.log("Puerto "+json.puertoActual+" activado")
-					$("#accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}").append('Desactivacion')
-					$("#dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}").append('{{ puerto.descripcion }}')
-					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show();
+					$("#img{{ puerto.puertoon }}{{ puerto.puertooff }}").prop('src', '/static/botonOff.png');
 				},
 				error: function(xhr,errmsg,err){
 					alert("Error: "+xhr.status+":"+xhr.responseText);
@@ -59,21 +59,18 @@
 {% endblock %}
 {% block cuerpo %}
 	{% for puerto in puertos %}
-	<div id="alerta{{ puerto.puertoon }}{{ puerto.puertooff }}" data-alert class="alert-box success hide" id="thealerta" style="display: none;">
-		Señal de <span id="accionpuerto{{ puerto.puertoon }}{{ puerto.puertooff }}"></span> enviada a <span id="dispositivo{{ puerto.puertoon }}{{ puerto.puertooff }}"></span>
-		<a href="#" class="close">&times;</a>
-	</div>
 	<row class="row">
-		<div class="medium-8 columns">
+		<div class="medium-7 columns">
 			<div class="descripcionSwitch">			
 				<h3>{{ puerto.descripcion }}</h3>
 			</div>
 		</div>
 		<form method="post">{% csrf_token %}
 			
-			<div class="medium-4 columns">
+			<div class="medium-5 columns">
 				<a id="puerto{{ puerto.puertoon }}" href="#" class="button small">ON</a>
 				<a id="puerto{{ puerto.puertooff }}" href="#" class="button small">OFF</a>
+				<img id="img{{ puerto.puertoon }}{{ puerto.puertooff }}" src="/static/botonOn.png" width="64" height="64"/>
 				<!--<div class="slideThree">  
 	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" />
 	      			<label for="puerto{{ puerto.nropuerto }}"></label>
