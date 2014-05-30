@@ -23,16 +23,21 @@
 				</section>
 				
 				<section class="middle tab-bar-section">
-					<h1 class="title">Oga Katupyry</h1>
+					<h1 class="title">Oga Katupyry</h1>			 
 				</section>
+				
 			</nav>
 			
 			<aside class="left-off-canvas-menu">
 				<ul class="off-canvas-list">
 					<li><label>Configuración</label></li>
 					<li><a href="/control/">Control</a></li>
-					<li><a href="#">Usuarios</a></li>
+					<li><a href="/login/">Usuarios</a></li>
 					<li><a href="/acerca/">Acerca</a></li>
+					{% if 'ses_usuario' in request.session %}
+					<li><a href="/cerrarses/">Cerrar Sesión</a></li>
+					{% endif %}
+					
 				</ul>
 			</aside>
 			

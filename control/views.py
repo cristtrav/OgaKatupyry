@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto, usuario
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.sessions.models import Session
 
 #Se comprueba si esta instalada la libreria RPi.GPIO
 try:
@@ -79,33 +81,42 @@ def login (request):
     
 def loginget(request): 
 # si hemos dado submitted en el form  
-    if request.method == "POST":
-        #testeamos si las cookie estan funcionando
-        if request.session.test_cookie_worked():
-        # Elimina las cookies
-                        request.session.delete_test_cookie()
-                        if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
-                             x=request.POST.get('usuariof')
-                             y=request.POST.get('passwordf')
-                            # print("llega aqui!!")
-                             try:
-                                 usr = usuario.objects.get(usuario=x)
-                                 print("password:"+usr.password)
-                                 print("usuario<<<<<"+usr.usuario)
-                                 return HttpResponseRedirect('/control/')
-                             except ObjectDoesNotExist:
-                                 print("usuario no existe")
-                                 return render(request, 'login.html') 
-                                 
-        else:
-             return HttpResponse("Porfavor active las cookies, E intente nuevamente")                     
-        request.session.set_test_cookie()
-    else:
-           request.session.set_test_cookie()
-           return render(request, 'login.html')
-
+                if request.method == "POST":
+                                    if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
+                                         x=request.POST.get('usuariof')
+                                         y=request.POST.get('passwordf')
+                                        # print("llega aqui!!")
+                                         try:
+                                             usr = usuario.objects.get(usuario=x, password=y)
+                                             
+                                             print("password:"+usr.password)
+                                             print("usuario<<<<<"+usr.usuario)
+                                             request.session['ses_usuario'] = usr.usuario
+                                             request.session['ses_usuario_nivel'] = usr.nivel                            
+                                             return HttpResponseRedirect("/control/")
+                                             
+                                             #return HttpResponse(json.dumps({'result':'ok'}),content_type="application/json")
+                                             
+                                         except ObjectDoesNotExist:
+                                             print("Error de logueo")
+                                             return render(request, 'login.html', {'mensaje':'Error de autenticación'})
+                                             #return HttpResponse(json.dumps({'result':'nook'}),content_type="application/json") 
+                else:
+                    print("No es Pos")
+                    return render(request, 'login.html', {'mensaje':''})
 
      
     #usr = usuario.objects.all()
     #return render(request, 'login.html', {"users": usr})    
+   
+def cerrarses(request):
+                try:
+                    del request.session['ses_usuario']
+                    del request.session['ses_usuario_nivel']
+                    #print("aqui Ses_usuario:"+request.session['ses_usuario'])
+                except KeyError:
+                    pass 
+                    print("key error")
+                return render(request, 'control.html',{'session':''})
+        
 
