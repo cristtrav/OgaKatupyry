@@ -12,7 +12,8 @@ except ImportError:
     gpio_disponible = False
 
 # Create your views here.
-def control(request):    
+def control(request):
+    request.session['thedato'] = 'holaperro'    
     cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
     #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
     return render(request, "control.html", {"puertos" : cfgpuertosbd,})
@@ -48,11 +49,19 @@ def accionarControl(request):
         infoPuerto = {#Se crea el objeto JSON para enviar a la pagina
             "puertoActual": nrp,
         }
+	time.sleep(2)
         return HttpResponse(json.dumps(infoPuerto), content_type="application/json")#Se envia el objeto JSON
     else:#Ocurre si no se eviaron datos para un puerto
         print("No se encontraron todas las claves en el post")
         return HttpResponseRedirect("/control/")
 
 def acerca(request):
+    try:
+        print("sesion: "+request.session['thedato'])
+    except KeyError:
+        print("sesion no encontrada")
     return render(request, 'acerca.html')
+
+def users(request):
+    return render(request, 'usuarios.html')
     

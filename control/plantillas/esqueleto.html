@@ -11,11 +11,20 @@
 </head>
 <body>
 	<script>
+
 		$(document).ready(function(){
-			$('.off-canvas-wrap,#main-nav,.exit-off-canvas').height($(this).height());
+
+			if($('.off-canvas-wrap').height()<$(this).height()){
+				$('.off-canvas-wrap').height($(this).height());
+			}
+
 			$(window).resize(function(){
-				$('.off-canvas-wrap,#main-nav,.exit-off-canvas').height($(this).height());
+				if($('.off-canvas-wrap').height()<$(this).height()){
+					$('.off-canvas-wrap').height($(this).height());
+				}
+
 			});
+			
 			{% block scripts %}
 			{% endblock %}
 		});
@@ -36,15 +45,16 @@
 				<ul class="off-canvas-list">
 					<li><label>Configuración</label></li>
 					<li><a href="/control/">Control</a></li>
-					<li><a href="#">Usuarios</a></li>
+					<li><a href="/usuarios/">Usuarios</a></li>
 					<li><a href="/acerca/">Acerca</a></li>
 				</ul>
 			</aside>
 			
 			<section class="main-section">
-				<img id="ajaxStatus" src="/static/loading1.gif" width="40" height="40" style="position: absolute; right: 5px; bottom: 5px; display: none;" />
 				{% block cuerpo %}
 				{% endblock %}
+				
+				<img id="ajaxStatus" src="/static/loading2.gif" width="40" height="40" style="position: fixed; right: 5px; bottom: 5px; display: none;" />
 			</section>
 		</div>
 	</div>
