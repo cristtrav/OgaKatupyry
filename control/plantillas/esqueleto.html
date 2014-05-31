@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="UTF-8" name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/foundation.css'/>
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/normalize.css'/>
 	<link rel="stylesheet" href="/static/switch.css" />
@@ -12,11 +12,26 @@
 </head>
 <body>
 	<script>
-		{% block scripts %}
-		{% endblock %}
+
+		$(document).ready(function(){
+
+			if($('.off-canvas-wrap').height()<$(this).height()){
+				$('.off-canvas-wrap').height($(this).height());
+			}
+
+			$(window).resize(function(){
+				if($('.off-canvas-wrap').height()<$(this).height()){
+					$('.off-canvas-wrap').height($(this).height());
+				}
+
+			});
+			
+			{% block scripts %}
+			{% endblock %}
+		});
 	</script>
 	<div class="off-canvas-wrap"> 
-		<div class="inner-wrap"  style="min-height: 300px">
+		<div class="inner-wrap"  style="min-height: 100%">
 			<nav class="tab-bar">
 			 	<section class="left-small">
 					<a class="left-off-canvas-toggle menu-icon" href="#"><span> </span></a>
@@ -32,7 +47,7 @@
 				<ul class="off-canvas-list">
 					<li><label>Configuración</label></li>
 					<li><a href="/control/">Control</a></li>
-					<li><a href="">Usuarios</a></li>
+					<li><a href="/usuarios/">Usuarios</a></li>
 					<li><a href="/acerca/">Acerca</a></li>
 					{% if 'ses_usuario' in request.session %}
 					<li><a href="/cerrarses/">Cerrar Sesión</a></li>
@@ -46,6 +61,7 @@
 			<section class="main-section">
 				{% block cuerpo %}
 				{% endblock %}
+				<img id="ajaxStatus" src="/static/loading2.gif" width="40" height="40" style="position: fixed; right: 5px; bottom: 5px; display: none;" />
 			</section>
 		</div>
 	</div>

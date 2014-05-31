@@ -1,61 +1,120 @@
 {% extends "esqueleto.html" %}
 {% block titulo %} - Control{% endblock %}
 {% block scripts %}
-	$(document).ready(function(){
-		
+		/*
 		{% for cfgp in cfgpuertos %}
 			$("#puerto{{ cfgp.puerto }}").prop('checked', {{ cfgp.estado }});
 			console.log("Cargando configuracion de puertos {{ cfgp.puerto }}, {{ cfgp.estado }}");
 		{% endfor %}
-		
+		*/
 		{% for puerto in puertos %}
-		$("#puerto{{ puerto.nropuerto }}").click(function(){
-			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
+		
+		/*Javascript para los botones de encendido*/
+		$("#puerto{{ puerto.puertoon }}").click(function(){
+			
+			$("#ajaxStatus").show();
 			$.ajax({
 				url: "/accionarControl/",
 				type: "POST",
 				dataType: "json",
 				data: {
 					csrfmiddlewaretoken: "{{ csrf_token }}",
-					opcionPuerto: sel,
-					numeroPuerto: {{ puerto.nropuerto }}
+					numeroPuerto: {{ puerto.puertoon }},
+					idregistro : {{ puerto.id }},
 				},
 				success: function(json){
-					var estAct = json.estadoActual;					
-					if(estAct == '0'){
-						console.log("Recibido 0. Puerto: "+json.puertoActual);
-						$("#puerto"+json.puertoActual).prop('checked', false);	
-					}else{
-						console.log("Recibido 1. Puerto: "+json.puertoActual);
-						$("#puerto"+json.puertoActual).prop('checked', true);
-					}
+					$("#ajaxStatus").hide();
+					console.log("Puerto "+json.puertoActual+" activado");
+					$("#img{{ puerto.puertoon }}{{ puerto.puertooff }}").prop('src', '/static/botonOn.png');
+					$("#msgdisp{{ puerto.puertoon }}{{ puerto.puertooff }}").empty();
+					$("#msgaccion{{ puerto.puertoon }}{{ puerto.puertooff }}").empty();
+					$("#msgdisp{{ puerto.puertoon }}{{ puerto.puertooff }}").append("{{ puerto.descripcion }}");
+					$("#msgaccion{{ puerto.puertoon }}{{ puerto.puertooff }}").append("activado/a");
+			
+					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show("slow");
+			
+					var timeout= window.setTimeout(function(){
+						$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").hide("slow");
+					}, 5000);
 					
 				},
 				error: function(xhr,errmsg,err){
+					$("#ajaxStatus").hide();
+					alert("Error: "+xhr.status+":"+xhr.responseText);
+				},
+			});
+			
+			return false;
+		});
+		/*Javascript para los botones de apagado*/
+		$("#puerto{{ puerto.puertooff }}").click(function(){
+			
+			
+			$("#ajaxStatus").show();
+			
+			$.ajax({
+				url: "/accionarControl/",
+				type: "POST",
+				dataType: "json",
+				data: {
+					csrfmiddlewaretoken: "{{ csrf_token }}",					
+					numeroPuerto: {{ puerto.puertooff }},
+					idregistro : {{ puerto.id }},
+				},
+				success: function(json){
+					$("#ajaxStatus").hide();
+					console.log("Puerto "+json.puertoActual+" activado")
+					$("#img{{ puerto.puertoon }}{{ puerto.puertooff }}").prop('src', '/static/botonOff.png');
+					$("#msgdisp{{ puerto.puertoon }}{{ puerto.puertooff }}").empty();
+					$("#msgaccion{{ puerto.puertoon }}{{ puerto.puertooff }}").empty();
+					$("#msgdisp{{ puerto.puertoon }}{{ puerto.puertooff }}").append("{{ puerto.descripcion }}");
+					$("#msgaccion{{ puerto.puertoon }}{{ puerto.puertooff }}").append("desactivado/a");
+			
+					$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").show("slow");
+			
+					var timeout= window.setTimeout(function(){
+						$("#alerta{{ puerto.puertoon }}{{ puerto.puertooff }}").hide("slow");
+					}, 5000);
+				},
+				error: function(xhr,errmsg,err){
+					$("#ajaxStatus").hide();
 					alert("Error: "+xhr.status+":"+xhr.responseText);
 				},
 			});
 			return false;
 		});
 		{% endfor %}
-	});
 {% endblock %}
 {% block cuerpo %}
 	{% for puerto in puertos %}
+	<div id="alerta{{ puerto.puertoon }}{{ puerto.puertooff }}" data-alert class="alert-box success" style="display: none;"> 
+		<span id="msgdisp{{ puerto.puertoon }}{{ puerto.puertooff }}"></span> <span id="msgaccion{{ puerto.puertoon }}{{ puerto.puertooff }}"></span>
+	</div>
+	
 	<row class="row">
-		<div class="medium-8 columns">
+		<div class="medium-7 columns">
 			<div class="descripcionSwitch">			
-				<h2>{{ puerto.descripcion }}</h2>
+				<h3>{{ puerto.descripcion }}</h3>
 			</div>
 		</div>
-		<div class="medium-4 columns">
-			<form method="post">{% csrf_token %}
-				<div class="slideThree">  
+		<form method="post">{% csrf_token %}
+			
+			<div class="medium-5 columns">
+				<a id="puerto{{ puerto.puertoon }}" href="#" class="button small">ON</a>
+				<a id="puerto{{ puerto.puertooff }}" href="#" class="button small">OFF</a>
+				<img id="img{{ puerto.puertoon }}{{ puerto.puertooff }}" src="
+				{% if puerto.ultestado == True %}
+				/static/botonOn.png
+				{% else %}
+				/static/botonOff.png
+				{% endif %}
+				" width="64" height="64"/>
+				<!--<div class="slideThree">  
 	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" />
 	      			<label for="puerto{{ puerto.nropuerto }}"></label>
-	    		</div>
-    		</form>
-		</div>
+	   			</div>-->
+			</div>
+		</form>
 	</row>
 	<hr />
 	{% endfor %}

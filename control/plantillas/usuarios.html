@@ -1,0 +1,66 @@
+{% extends 'esqueleto.html' %}
+{% block titulo %} - Usuarios{% endblock %}
+{% block scripts %}
+	$('#cerrarDlgElim').click(function(){
+		console.log('elim');
+		$('#dlgElim').foundation('reveal', 'close');
+	});
+{% endblock %}
+
+{% block cuerpo %}
+<script>
+	function estabLinkElim(idusr){
+		$("#aceptarElimDlg").prop("href", "/usuarios/eliminar/"+idusr+"/");
+	}
+</script>
+<div class="row" style='margin-top: 30px; width: 100%;'>
+	<div class="small-12 columns text-left">
+		<a href="/usuarios/editar/" class="button small">Agregar</a>
+	</div>
+</div>
+<hr />
+{% if users %}
+	{% for u in users %}
+	
+	<div class='row'>
+		<div class='medium-7 columns'>
+			<h3>{{ u.usuario }} (Nivel {{ u.nivel }})</h3>
+		</div>
+		<div class='medium-5 columns'>
+			<a class='button small' href='/usuarios/editar/{{ u.id }}/'>Editar</a>
+			<a class='button small 
+			{% if u.nivel == 1 and lvl1unico or u.nivel == 2 and lvl2unico %}
+				disabled
+			{% endif %}' href='#'
+			{% if u.nivel == 1 and not lvl1unico or u.nivel == 2 and not lvl2unico %} 
+				data-reveal-id='dlgElim' 
+			{% endif %}
+			{% if u.nivel == 1 and not lvl1unico or u.nivel == 2 and not lvl2unico %}
+				onclick="estabLinkElim({{ u.id }})"
+			{% endif %}>Eliminar</a>
+			<!--<a class='button small' href='/usuarios/eliminar/{{ u.id }}'>Eliminar</a>-->
+		</div>
+	</div>
+	<div class='row'>
+		<div class='large-12 columns'>
+			<hr />
+		</div>	
+	</div>
+	{% endfor%}
+	
+{% else %}
+	<div class='row'>
+		<div class='small-12 text-center'>
+			<h2>No hay usuarios</h2>
+		</div>
+	</div>
+{% endif %}
+<div id='dlgElim' class='reveal-modal' data-reveal>
+	<p>
+	¿Está seguro que desea eliminar este usuario?
+	</p>
+	<p>
+		<a id='aceptarElimDlg' href='#' class='button small' style='margin-right: 20px;'>Aceptar</a><a id='cerrarDlgElim' class='button small'>Cancelar</a>
+	</p>
+</div>
+{% endblock %}
