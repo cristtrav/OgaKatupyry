@@ -1,0 +1,44 @@
+{% extends "esqueleto.html" %}
+{% block titulo %} - Puertos{% endblock %}
+{% block cuerpo %}
+
+<form class="form-horizontal" method="post" action="/CRUD/">{%csrf_token%}
+<fieldset>
+
+<!-- Form Name -->
+<legend>Modificar Puertos</legend>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput">Numero de Puerto ON</label>
+  <div class="controls">
+    <select name = "nropuerto"> 
+{% for puerto in puertos %}
+<option value="{{ puerto.id }}">{{ puerto.descripcion }}</option>
+{% endfor %}
+</select>
+    <p class="help-block">*</p>
+  </div>
+</div>
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput">Descripcion del Puerto</label>
+  <div class="controls">
+    <input  id="textinput" size="20px" name="descripcion" type="text" placeholder="Pieza, Sala y otros" class="input-xlarge" required="">
+    <p class="help-block">*</p>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="control-group">
+  <label class="control-label" for="button1id"></label>
+  <div class="controls">
+    <button id="button1id" class="btn btn-success">Guardar</button>
+    <button id="button2id" formaction="/Configuracion/" class="btn btn-danger">Cancelar</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+{% endblock %}

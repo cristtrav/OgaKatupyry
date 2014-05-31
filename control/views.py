@@ -1,11 +1,28 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto
-#DESCOMENTAR LA SIGUEIENTE LINEA CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
-#import RPi.GPIO as GPIO
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your views here.
+def update(request):
+        query = configPuerto.objects.all()
+        return render(request, 'update.html', {"puertos" : query } )
+
+def deleteall(request):
+    del_puertos = configPuerto.object.all().delete()
+    return render (request, "Configuracion.html")
+
+def savePuertos(request):
+    bart = configPuerto.objects.all()
+    return render(request, "savePuertos.html", {"opciones" : bart})
+ 
+def configuracion(request):
+    consulta = configPuerto.objects.all()
+    return render(request, "Configuracion.html", {"puertos" : consulta})
+    
+
 def control(request):    
     cfgpuertos = configPuerto.objects.all()
     return render(request, "control.html", {"puertos" : cfgpuertos})
@@ -37,4 +54,6 @@ def accionarControl(request):
     else:
         print("No existe clave 'opcionPuerto'")
         return render(request, "control.html")
+    
+
     

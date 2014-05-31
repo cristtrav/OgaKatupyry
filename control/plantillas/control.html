@@ -4,8 +4,8 @@
 	$(document).ready(function(){
 		/*$("#theslide").prop('checked', false);*/
 		{% for puerto in puertos %}
-		$("#puerto{{ puerto.nropuerto }}").click(function(){
-			var sel=$("#puerto{{ puerto.nropuerto }}").prop('checked');
+		$("#puerto{{ puerto.puertoon }}").click(function(){
+			var sel=$("#puerto{{ puerto.puertoon }}").prop('checked');
 			$.ajax({
 				url: "/accionarControl",
 				type: "POST",
@@ -13,7 +13,7 @@
 				data: {
 					csrfmiddlewaretoken: "{{ csrf_token }}",
 					opcionPuerto: sel,
-					numeroPuerto: {{ puerto.nropuerto }}
+					numeroPuerto: {{ puerto.puertoon }}
 				},
 				success: function(json){
 					var estAct = json.estadoActual;					
@@ -36,16 +36,16 @@
 	});
 {% endblock %}
 {% block cuerpo %}
-	{% for puerto in puertos %}
-	<row class="row">
-		<div class="small-3 columns">			
+{% for puerto in puertos %}
+<row class="row">
+		<div class="small-9 columns">		
 				{{ puerto.descripcion }}
 		</div>
-		<div class="small-9 columns">
+		<div class="small-9 columns" >
 			<form method="post">{% csrf_token %}
-				<div class="slideThree">  
-	      			<input type="checkbox" value="None" id="puerto{{ puerto.nropuerto }}" name="puerto{{ puerto.nropuerto }}" checked />
-	      			<label for="puerto{{ puerto.nropuerto }}"></label>
+				<div class="slideThree" >
+	      			<input type="checkbox" value="None" id="puerto{{ puerto.puertoon }}" name="puerto{{ puerto.puertoon }}" checked />
+	      			<label for="puerto{{ puerto.puertoon }}"></label>
 	    		</div>
     		</form>
 		</div>
