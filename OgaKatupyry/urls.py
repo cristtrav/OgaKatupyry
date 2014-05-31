@@ -1,12 +1,16 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from control.views import control, accionarControl, acerca, users, editUsers, newUsers, processUser, eliminarUser
+from control.views import control, accionarControl, acerca, loginget, cerrarses, users, editUsers, newUsers, processUser, eliminarUser
+
+
 #admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^control/$', control),
     url(r'^accionarControl/$', accionarControl),
     url(r'^acerca/$', acerca),
+    url(r'^login/$', loginget),
+    url(r'^cerrarses/$', cerrarses),
     url(r'^usuarios/$', users),
     url(r'^usuarios/editar/$', newUsers),
     url(r'^usuarios/editar/([0-9]+)/$', editUsers),

@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/foundation.css'/>
 	<link rel="stylesheet" href='/static/foundation-5.2.2/css/normalize.css'/>
 	<link rel="stylesheet" href="/static/switch.css" />
+	<link rel="stylesheet" href="/static/style.css" />
 	<script src='/static/foundation-5.2.2/js/vendor/modernizr.js'></script>
 	<script src='/static/jquery-2.1.1.js'></script>
 	<title>Oga Katupyry{% block titulo %}{% endblock %}</title>
@@ -37,8 +38,9 @@
 				</section>
 				
 				<section class="middle tab-bar-section">
-					<h1 class="title">Oga Katupyry</h1>
+					<h1 class="title">Oga Katupyry</h1>			 
 				</section>
+				
 			</nav>
 			
 			<aside class="left-off-canvas-menu">
@@ -47,6 +49,12 @@
 					<li><a href="/control/">Control</a></li>
 					<li><a href="/usuarios/">Usuarios</a></li>
 					<li><a href="/acerca/">Acerca</a></li>
+					{% if 'ses_usuario' in request.session %}
+					<li><a href="/cerrarses/">Cerrar Sesión</a></li>
+					{% else %}
+					<li><a href="/login/">Login</a></li>
+					{% endif %}
+					
 				</ul>
 			</aside>
 			

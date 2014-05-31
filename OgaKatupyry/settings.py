@@ -101,6 +101,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+)
+
 #DESCOMENTAR LAS SIGUEIENTES LINEAS CUANDO SE DESPLIEGA EN EL RASPBERRY CONTANDO CON LA LIBRERIA RPi.GPIO
 from control.models import configPuerto#Importo el modelo de configuracion de puertos para habilitar
 from django.db import OperationalError#Importada libreria de base dedatos de django

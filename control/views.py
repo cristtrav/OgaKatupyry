@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import json
 from models import configPuerto, usuario
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.sessions.models import Session
 import time
 
 #Se comprueba si esta instalada la libreria RPi.GPIO
@@ -13,11 +16,10 @@ except ImportError:
 
 # Create your views here.
 def control(request):
-    request.session['thedato'] = 'holaperro'    
     cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
     #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
     return render(request, "control.html", {"puertos" : cfgpuertosbd})
-
+     
 def accionarControl(request):
     print("accionarControl llamado")
     #Se comprueba que el POST tenga los dos parametros necesarios
@@ -61,6 +63,38 @@ def acerca(request):
     except KeyError:
         print("sesion no encontrada")
     return render(request, 'acerca.html')
+
+def login (request):
+    return render(request, "login.html")
+        
+    
+def loginget(request): 
+                if request.method == "POST":
+                                    if request.POST.has_key('usuariof') and request.POST.has_key('passwordf'):
+                                         x=request.POST.get('usuariof')
+                                         y=request.POST.get('passwordf')
+                                         try:
+                                             usr = usuario.objects.get(usuario=x, password=y)                                             
+                                             print("password:"+usr.password)
+                                             print("usuario<<<<<"+usr.usuario)
+                                             request.session['ses_usuario'] = usr.usuario
+                                             request.session['ses_usuario_nivel'] = usr.nivel                            
+                                             return HttpResponseRedirect("/control/")
+                                         except ObjectDoesNotExist:
+                                             print("Error de logueo")
+                                             return render(request, 'login.html', {'mensaje':'Error de autenticación'}) 
+                else:
+                    print("No es Pos")
+                    return render(request, 'login.html', {'mensaje':''})  
+   
+def cerrarses(request):
+                try:
+                    del request.session['ses_usuario']
+                    del request.session['ses_usuario_nivel']
+                except KeyError:
+                    pass 
+                    print("key error")
+                return render(request, 'control.html',{'session':''})
 
 def users(request):
     usrs = usuario.objects.all()
