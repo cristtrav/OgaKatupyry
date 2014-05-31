@@ -17,7 +17,7 @@
 }
 
 /* usuario y password */
-input:not([type="button"]) {
+.login:not([type="button"]) {
   border: 1px solid #acacac;
   color: #666;
   opacity: 7;
@@ -26,7 +26,7 @@ input:not([type="button"]) {
   margin: auto;
   text-align: center;
 }
-input:focus:not([type="button"]) {
+.login:focus:not([type="button"]) {
   border: 1px solid #CC0000;
   opacity: 1;
   width: 200px;
@@ -34,12 +34,12 @@ input:focus:not([type="button"]) {
   color: #CC0000;
 }
 
-input[placeholder] {
+.login[placeholder] {
     color:    #acacac;
     font-weight: bold;
     }
   
-input[type="button"]{
+.login[type="button"]{
   padding: 15px 25px;
   font-size: 22px;
 }

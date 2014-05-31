@@ -13,9 +13,9 @@
 		<div id="text1"> <h2><b>Iniciar Sesion</b></h2></div>
       			<form method="post" action="/login/" id="form9" name="form9">
       			{% csrf_token %}
-        			<p><input type="text" id="usuariof" name="usuariof" value="" class="required" placeholder="Usuario"></p>
-        			<p><input type="password" name="passwordf" value="" class="required" placeholder="Password"></p>
-        			<p><input type="submit" value="enviar" name="submit" id="submit"></p>
+        			<p><input type="text" id="usuariof" name="usuariof" value="" class="login required" placeholder="Usuario"></p>
+        			<p><input type="password" name="passwordf" value="" class="login required" placeholder="Password"></p>
+        			<p><input type="submit" value="enviar" name="submit" id="submit" class='button'></p>
         			<span id="msg">{{ mensaje }}</span>
       			</form>
 </div>
