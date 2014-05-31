@@ -28,7 +28,16 @@
 		</div>
 		<div class='medium-5 columns'>
 			<a class='button small' href='/usuarios/editar/{{ u.id }}/'>Editar</a>
-			<a class='button small' href='#' data-reveal-id='dlgElim' onclick="estabLinkElim({{ u.id }})">Eliminar</a>
+			<a class='button small 
+			{% if u.nivel == 1 and lvl1unico or u.nivel == 2 and lvl2unico %}
+				disabled
+			{% endif %}' href='#'
+			{% if u.nivel != 1 and lvl1unico or u.nivel != 2 and lvl2unico %} 
+				data-reveal-id='dlgElim' 
+			{% endif %}
+			{% if u.nivel != 1 and lvl1unico or u.nivel != 2 and lvl2unico %}
+				onclick="estabLinkElim({{ u.id }})"
+			{% endif %}>Eliminar</a>
 			<!--<a class='button small' href='/usuarios/eliminar/{{ u.id }}'>Eliminar</a>-->
 		</div>
 	</div>

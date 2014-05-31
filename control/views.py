@@ -64,8 +64,20 @@ def acerca(request):
 
 def users(request):
     usrs = usuario.objects.all()
+    usrslvl1 = usuario.objects.filter(nivel=1)
+    if(usrslvl1.count() == 1):
+        usrslvl1unico = True
+    else:
+        usrslvl1unico = False
+    
+    usrslvl2 = usuario.objects.filter(nivel=2)
+    if(usrslvl2.count() == 1):
+        usrslvl2unico = True
+    else:
+        usrslvl2unico = False
+    
     print('hay '+str(usrs.count()))
-    return render(request, 'usuarios.html', {'users':usrs})
+    return render(request, 'usuarios.html', {'users':usrs, 'lvl1unico' : usrslvl1unico, 'lvl2unico' : usrslvl2unico})
 
 def editUsers(request, par1):
     print("Primer parametro: "+par1)
@@ -103,4 +115,4 @@ def eliminarUser(request, idu):
     print('eluser a eliminar '+idu )
     usr=usuario(id=int(idu))
     usr.delete()
-    return HttpResponseRedirect('/usuarios/', {'msg':'Usuario Eliminado'})
+    return HttpResponseRedirect('/usuarios/')
