@@ -1,18 +1,24 @@
 {% extends 'esqueleto.html' %}
 {% block titulo %} - Usuarios{% endblock %}
+{% block scripts %}
+	$('#cerrarDlgElim').click(function(){
+		console.log('elim');
+		$('#dlgElim').foundation('reveal', 'close');
+	});
+{% endblock %}
 
 {% block cuerpo %}
+<script>
+	function estabLinkElim(idusr){
+		$("#aceptarElimDlg").prop("href", "/usuarios/eliminar/"+idusr+"/");
+	}
+</script>
 <div class="row" style='margin-top: 30px; width: 100%;'>
 	<div class="small-12 columns text-left">
 		<a href="/usuarios/editar/" class="button small">Agregar</a>
 	</div>
-	
 </div>
-<div class='row'>
-	<div class='large-12 columns'>
-		<hr />
-	</div>	
-</div>
+<hr />
 {% if users %}
 	{% for u in users %}
 	
@@ -22,7 +28,8 @@
 		</div>
 		<div class='medium-5 columns'>
 			<a class='button small' href='/usuarios/editar/{{ u.id }}/'>Editar</a>
-			<a class='button small' href='/usuarios/eliminar/{{ u.id }}'>Eliminar</a>
+			<a class='button small' href='#' data-reveal-id='dlgElim' onclick="estabLinkElim({{ u.id }})">Eliminar</a>
+			<!--<a class='button small' href='/usuarios/eliminar/{{ u.id }}'>Eliminar</a>-->
 		</div>
 	</div>
 	<div class='row'>
@@ -39,4 +46,12 @@
 		</div>
 	</div>
 {% endif %}
+<div id='dlgElim' class='reveal-modal' data-reveal>
+	<p>
+	¿Está seguro que desea eliminar este usuario?
+	</p>
+	<p>
+		<a id='aceptarElimDlg' href='#' class='button small' style='margin-right: 20px;'>Aceptar</a><a id='cerrarDlgElim' class='button small'>Cancelar</a>
+	</p>
+</div>
 {% endblock %}

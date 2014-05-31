@@ -81,15 +81,18 @@ def processUser(request):
     #if(request.method == 'post'):
     if request.POST.has_key('usuario') and request.POST.has_key('contrasenia') and request.POST.has_key('nivel'):
         
-        idu = int(request.POST.get('iduser')) 
-        
-        usr=request.POST.get('usuario')
+        idu = int(request.POST.get('iduser'))
+        usr = request.POST.get('usuario')
         passwd=request.POST.get('contrasenia')
         lvl=int(request.POST.get('nivel'))
-        
-        nwusr=usuario(usuario=usr,password=passwd,nivel=lvl)
         if(idu != 0):
-            nwusr.id=idu
+            nwusr = usuario.objects.filter(id=idu).first()
+            nwusr.usuario = usr 
+            if passwd:
+                nwusr.password = passwd
+            nwusr.nivel = lvl       
+        else:
+            nwusr=usuario(usuario=usr,password=passwd,nivel=lvl)
         nwusr.save()
     else:
         print('no se recibieron los keys')

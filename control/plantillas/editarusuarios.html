@@ -1,13 +1,127 @@
 {% extends 'esqueleto.html' %}
 {% block titulo %} - Editar Usuario{% endblock %}
-
+{% block scripts %}
+	$(document).ready(function(){
+		if({{ idusuario }} != 0){
+			$("#usuario").val('{{ userActual.usuario }}');
+			$("#nivel{{ userActual.nivel }}").prop('checked', true);
+		}
+		$("#contrasenia2").keyup(function(){
+			var p1 = $("#contrasenia").val();
+			var p2 = $("#contrasenia2").val(); 
+			if(p1 == p2){
+				$("#pass2msg").hide();	
+			}else{
+				$("#pass2msg").empty();
+				$("#pass2msg").append("Las contraseñas no coinciden");
+				$("#pass2msg").show();
+			}
+		});
+	});
+	
+{% endblock %}
 {% block cuerpo %}
-<form action="/usuarios/procesar/" method='post'>
+<script>
+	function valCampos(){
+		var u=$("#usuario").val();
+		var p1 = $("#contrasenia").val();
+		var p2 = $("#contrasenia2").val();
+		if(u){
+			$("#usermsg").hide();
+			if({{ idusuario }} == 0){
+				if(p1){
+					$("#pass1msg").hide();
+					if(p1 == p2){
+						$("#pass1msg").hide();
+						return true;
+					}else{
+						$("#pass2msg").empty();
+						$("#pass2msg").append("Las contraseñas no coinciden");
+						$("#pass2msg").show();
+						return false;
+					}
+				}else{
+					$("#pass1msg").empty();
+					$("#pass1msg").append("Contrasenña vacía");
+					$("#pass1msg").show();
+					return false;
+				}
+			}else{
+				if(p1 == p2){
+					$("#pass1msg").hide();
+					return true;
+				}else{
+					$("#pass2msg").empty();
+					$("#pass2msg").append("Las contraseñas no coinciden");
+					$("#pass2msg").show();
+					return false;
+				}
+			}
+		}else{
+			$("#usermsg").empty();
+			$("#usermsg").append("El campo usuario no puede quedar vacío");
+			$("#usermsg").show();
+			return false;
+		}
+		
+		if(p1 == p2){
+			
+			/*$("#passmsg").hide();*/
+			console.log('contrasenias coincidentes');
+			return true;	
+		}else{
+			/*$("#passmsg").show();*/
+			console.log('contrasenias no coincidentes');
+			return false;
+		}
+	}
+</script>
+
+<form action="/usuarios/procesar/" method='post' onsubmit="return valCampos();">
 	{% csrf_token %}
 	<input type='hidden' id='iduser' name='iduser' value='{{ idusuario }}' />
-	<input type='text' id='thefield' name='thefield' />
-	<div data-interchange="[/static/formSmallUser.html,(small)],[/static/formLargeUser.html,(medium)],[/static/formLargeUser.html,(large)]">
+	<div class='row' style='margin-top: 30px;'>
+		<div class='medium-3 columns'>
+			<label for='usuario' class='left inline'>Usuario</label>
+		</div>
+		<div class='medium-9 columns text-left'>
+			<input type='text' id='usuario' name='usuario' placeholder='Nombre de usuario' />
+			<small id='usermsg' class="error" style='display:none;'>Las contraseñas no coinciden</small>
+		</div>
 	</div>
+	<div class='row text-center' >
+				<div class='medium-3 columns'>
+					<label for='contrasenia' class='left inline'>Contraseña</label>
+					
+				</div>
+			<div class='medium-9 columns'>
+				<input type='password' id='contrasenia' name='contrasenia' placeholder='Contraseña' />
+				<small id='pass1msg' class="error" style='display:none;'>Las contraseñas no coinciden</small>
+			</div>
+	</div>
+	<div class='row'>
+				<div class='medium-3 columns'>
+					<label for='contrasenia2' class='left inline'>Repetir contraseña</label>
+				</div>
+			<div class='medium-9 columns'>
+				<input type='password' id='contrasenia2' name='contrasenia2' placeholder='Repetir Contraseña' />
+				<small id='pass2msg' class="error" style='display:none;'>Las contraseñas no coinciden</small>
+			</div>
+	</div>
+	<div class='row'>
+			<div class='medium-3 columns'>
+				<label for='nivel' class='left'>Privilegios</label>
+			</div>
+			<div class='medium-9 columns'>
+				<div>
+					<input type='radio' name='nivel' id='nivel1' value='1'/><label for='nivel1'>Nivel 1</label>
+					<input type='radio' name='nivel' id='nivel2' value='2'/><label for='nivel2'>Nivel 2</label>
+					<input type='radio' name='nivel' id='nivel3' value='3' checked/><label for='nivel3'>Nivel 3</label>
+				</div>
+			</div>
+	</div>
+	<!--<div data-interchange="[/static/formSmallUser.html,(small)],[/static/formLargeUser.html,(medium)],[/static/formLargeUser.html,(large)]">-->
+	
 	<div class='row'>
 		<div class='small-12 columns text-right'>
 				<input class='button small' type='submit' value='Aceptar'>
