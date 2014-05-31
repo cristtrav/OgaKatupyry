@@ -32,10 +32,10 @@
 			{% if u.nivel == 1 and lvl1unico or u.nivel == 2 and lvl2unico %}
 				disabled
 			{% endif %}' href='#'
-			{% if u.nivel != 1 and lvl1unico or u.nivel != 2 and lvl2unico %} 
+			{% if u.nivel == 1 and not lvl1unico or u.nivel == 2 and not lvl2unico %} 
 				data-reveal-id='dlgElim' 
 			{% endif %}
-			{% if u.nivel != 1 and lvl1unico or u.nivel != 2 and lvl2unico %}
+			{% if u.nivel == 1 and not lvl1unico or u.nivel == 2 and not lvl2unico %}
 				onclick="estabLinkElim({{ u.id }})"
 			{% endif %}>Eliminar</a>
 			<!--<a class='button small' href='/usuarios/eliminar/{{ u.id }}'>Eliminar</a>-->
