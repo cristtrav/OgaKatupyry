@@ -24,6 +24,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'control','css'),
     os.path.join(BASE_DIR,'control','js'),
     os.path.join(BASE_DIR,'control','imagenes'),
+    os.path.join(BASE_DIR,'control','staticForms'),
 )
 
 # Definicion de carpetas donde estaran las plantillas HTML

@@ -1,0 +1,17 @@
+{% extends 'esqueleto.html' %}
+{% block titulo %} - Editar Usuario{% endblock %}
+
+{% block cuerpo %}
+<form action="/usuarios/procesar/" method='post'>
+	{% csrf_token %}
+	<input type='hidden' id='iduser' name='iduser' value='{{ idusuario }}' />
+	<input type='text' id='thefield' name='thefield' />
+	<div data-interchange="[/static/formSmallUser.html,(small)],[/static/formLargeUser.html,(medium)],[/static/formLargeUser.html,(large)]">
+	</div>
+	<div class='row'>
+		<div class='small-12 columns text-right'>
+				<input class='button small' type='submit' value='Aceptar'>
+		</div>
+	</div>
+</form>
+{% endblock %}

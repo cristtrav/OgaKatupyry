@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import json
-from models import configPuerto
+from models import configPuerto, usuario
 import time
 
 #Se comprueba si esta instalada la libreria RPi.GPIO
@@ -16,7 +16,7 @@ def control(request):
     request.session['thedato'] = 'holaperro'    
     cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
     #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
-    return render(request, "control.html", {"puertos" : cfgpuertosbd,})
+    return render(request, "control.html", {"puertos" : cfgpuertosbd})
 
 def accionarControl(request):
     print("accionarControl llamado")
@@ -63,5 +63,41 @@ def acerca(request):
     return render(request, 'acerca.html')
 
 def users(request):
-    return render(request, 'usuarios.html')
-    
+    usrs = usuario.objects.all()
+    print('hay '+str(usrs.count()))
+    return render(request, 'usuarios.html', {'users':usrs})
+
+def editUsers(request, par1):
+    print("Primer parametro: "+par1)
+    userActual=usuario.objects.filter(id=par1).first()
+    print("the user: "+userActual.usuario)
+    return render(request, 'editarusuarios.html',{'idusuario': par1, 'userActual': userActual})
+
+def newUsers(request):
+    print("Nuevo usuario")
+    return render(request, 'editarusuarios.html',{'idusuario': 0})
+
+def processUser(request):
+    #if(request.method == 'post'):
+    if request.POST.has_key('usuario') and request.POST.has_key('contrasenia') and request.POST.has_key('nivel'):
+        
+        idu = int(request.POST.get('iduser')) 
+        
+        usr=request.POST.get('usuario')
+        passwd=request.POST.get('contrasenia')
+        lvl=int(request.POST.get('nivel'))
+        
+        nwusr=usuario(usuario=usr,password=passwd,nivel=lvl)
+        if(idu != 0):
+            nwusr.id=idu
+        nwusr.save()
+    else:
+        print('no se recibieron los keys')
+
+    return HttpResponseRedirect('/usuarios/')
+
+def eliminarUser(request, idu):
+    print('eluser a eliminar '+idu )
+    usr=usuario(id=int(idu))
+    usr.delete()
+    return HttpResponseRedirect('/usuarios/', {'msg':'Usuario Eliminado'})
