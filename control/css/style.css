@@ -1,0 +1,49 @@
+#espacio{
+	text-align: center;
+	width: 20px;
+	height: 20px;	
+}
+#contenedor{
+	border: thick solid #000;
+	border-radius: 7px;
+	width: 300px;
+  	height: 300px;
+  	text-align: center;
+    margin: auto;
+}
+
+#text1{
+	 text-align: center;
+}
+
+/* usuario y password */
+input:not([type="button"]) {
+  border: 1px solid #acacac;
+  color: #666;
+  opacity: 7;
+  border-radius: 5px;
+  width: 150px;
+  margin: auto;
+  text-align: center;
+}
+input:focus:not([type="button"]) {
+  border: 1px solid #CC0000;
+  opacity: 1;
+  width: 200px;
+  outline: none;
+  color: #CC0000;
+}
+
+input[placeholder] {
+    color:    #acacac;
+    font-weight: bold;
+    }
+  
+input[type="button"]{
+  padding: 15px 25px;
+  font-size: 22px;
+}
+
+
+	
+

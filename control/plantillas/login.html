@@ -1,0 +1,26 @@
+{% extends "esqueleto.html" %}
+{% block titulo %} - Usuario{% endblock %}
+{% block scripts %}
+
+{% endblock %}
+{% block cuerpo %}
+{% if 'ses_usuario' not in request.session %}
+<div id="espacio">
+
+</div>
+
+<div id="contenedor">
+		<div id="text1"> <h2><b>Iniciar Sesion</b></h2></div>
+      			<form method="post" action="/login/" id="form9" name="form9">
+      			{% csrf_token %}
+        			<p><input type="text" id="usuariof" name="usuariof" value="" class="required" placeholder="Usuario"></p>
+        			<p><input type="password" name="passwordf" value="" class="required" placeholder="Password"></p>
+        			<p><input type="submit" value="enviar" name="submit" id="submit"></p>
+        			<span id="msg">{{ mensaje }}</span>
+      			</form>
+</div>
+{% else %}
+<p><h1>Usted ya se ha Logueado</h1></p>
+<meta http-equiv="Refresh" content="5;url=/control/">
+{% endif %}
+{% endblock %}
