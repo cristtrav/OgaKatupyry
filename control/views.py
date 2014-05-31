@@ -150,3 +150,19 @@ def eliminarUser(request, idu):
     usr=usuario(id=int(idu))
     usr.delete()
     return HttpResponseRedirect('/usuarios/')
+
+def update(request):
+        query = configPuerto.objects.all()
+        return render(request, 'update.html', {"puertos" : query } )
+
+def deleteall(request):
+    del_puertos = configPuerto.object.all().delete()
+    return render (request, "Configuracion.html")
+
+def savePuertos(request):
+    bart = configPuerto.objects.all()
+    return render(request, "savePuertos.html", {"opciones" : bart})
+ 
+def configuracion(request):
+    consulta = configPuerto.objects.all()
+    return render(request, "Configuracion.html", {"puertos" : consulta})
