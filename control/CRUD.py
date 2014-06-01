@@ -53,6 +53,7 @@ def CRUD(request):
                     cfg_puertos = configPuerto(puertoon = puertoon, puertooff = puertoof,  descripcion = descripcion)
                     cfg_puertos.save()
                     if gpio_disponible:
+                        GPIO.setwarnigs(False)
                         GPIO.setup(cfg_puertos.puertoon)
                         GPIO.setup(cfg_puertos.puertooff)
                     else:
@@ -69,6 +70,7 @@ def CRUD(request):
                  else:
                     cfg_puertos = configPuerto.objects.get(id = idpuerto)
                     cfg_puertos.delete()
+                    '''
                     if gpio_disponible:
                         print("RPi.GPIO instalado")
                         GPIO.setmode(GPIO.BOARD)
@@ -80,8 +82,10 @@ def CRUD(request):
                             GPIO.output(cfg_puertos.puertoof, GPIO.HIGH)
                         except OperationalError:
                             print("no se ha encontrado db")
+                    
                     else:
                          print("RPi.GPIO no instalado")       
+                    '''
                     return HttpResponseRedirect('/Configuracion/')
             
             ################################UPDATE#########################################################################
