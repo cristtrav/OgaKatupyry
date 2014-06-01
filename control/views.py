@@ -18,7 +18,7 @@ except ImportError:
 def control(request):
     #loginStatus = request.session.get('ses_usuario','no_login')
     #print('Login status: '+loginStatus)
-    i#f loginStatus == 'no_login':
+    #f loginStatus == 'no_login':
       #  print('supuesto redirect')
        # return HttpResponseRedirect('/login/')
     #else:
