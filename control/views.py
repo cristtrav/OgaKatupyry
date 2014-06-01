@@ -16,9 +16,15 @@ except ImportError:
 
 # Create your views here.
 def control(request):
-    cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
-    #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
-    return render(request, "control.html", {"puertos" : cfgpuertosbd})
+    loginStatus = request.session.get('ses_usuario','no_login')
+    print('Login status: '+loginStatus)
+    if loginStatus == 'no_login':
+        print('supuesto redirect')
+        return HttpResponseRedirect('/login/')
+    else:
+        cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
+        #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
+        return render(request, "control.html", {"puertos" : cfgpuertosbd})
      
 def accionarControl(request):
     print("accionarControl llamado")
@@ -97,31 +103,52 @@ def cerrarses(request):
                 return render(request, 'control.html',{'session':''})
 
 def users(request):
-    usrs = usuario.objects.all()
-    usrslvl1 = usuario.objects.filter(nivel=1)
-    if(usrslvl1.count() == 1):
-        usrslvl1unico = True
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel >2:
+        return render(request, 'accesoDenegado.html')
     else:
-        usrslvl1unico = False
-    
-    usrslvl2 = usuario.objects.filter(nivel=2)
-    if(usrslvl2.count() == 1):
-        usrslvl2unico = True
-    else:
-        usrslvl2unico = False
+        usrs = usuario.objects.all()
+        usrslvl1 = usuario.objects.filter(nivel=1)
+        if(usrslvl1.count() == 1):
+            usrslvl1unico = True
+        else:
+            usrslvl1unico = False
+        
+        usrslvl2 = usuario.objects.filter(nivel=2)
+        if(usrslvl2.count() == 1):
+            usrslvl2unico = True
+        else:
+            usrslvl2unico = False
     
     print('hay '+str(usrs.count()))
     return render(request, 'usuarios.html', {'users':usrs, 'lvl1unico' : usrslvl1unico, 'lvl2unico' : usrslvl2unico})
 
 def editUsers(request, par1):
-    print("Primer parametro: "+par1)
-    userActual=usuario.objects.filter(id=par1).first()
-    print("the user: "+userActual.usuario)
-    return render(request, 'editarusuarios.html',{'idusuario': par1, 'userActual': userActual})
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel >2:
+        return render(request, 'accesoDenegado.html')
+    else:
+        print("Primer parametro: "+par1)
+        userActual=usuario.objects.filter(id=par1).first()
+        print("the user: "+userActual.usuario)
+        return render(request, 'editarusuarios.html',{'idusuario': par1, 'userActual': userActual})
 
 def newUsers(request):
-    print("Nuevo usuario")
-    return render(request, 'editarusuarios.html',{'idusuario': 0})
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel >2:
+        return render(request, 'accesoDenegado.html')
+    else:
+        print("Nuevo usuario")
+        return render(request, 'editarusuarios.html',{'idusuario': 0})
 
 def processUser(request):
     #if(request.method == 'post'):
@@ -152,6 +179,13 @@ def eliminarUser(request, idu):
     return HttpResponseRedirect('/usuarios/')
 
 def update(request):
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel != 1:
+        return render(request, 'accesoDenegado.html')
+    else:
         query = configPuerto.objects.all()
         return render(request, 'update.html', {"puertos" : query } )
 
@@ -161,9 +195,31 @@ def deleteall(request):
     return render (request, "Configuracion.html")
 
 def savePuertos(request):
-    bart = configPuerto.objects.all()
-    return render(request, "savePuertos.html", {"opciones" : bart})
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel != 1:
+        return render(request, 'accesoDenegado.html')
+    else:
+        bart = configPuerto.objects.all()
+        return render(request, "savePuertos.html", {"opciones" : bart})
  
 def configuracion(request):
-    consulta = configPuerto.objects.all()
-    return render(request, "Configuracion.html", {"puertos" : consulta})
+    loginUser = request.session.get('ses_usuario','no_login')
+    loginLevel = request.session.get('ses_usuario_nivel', 0)
+    if(loginUser == 'no_login'):
+        return HttpResponseRedirect('/login/')
+    elif loginLevel != 1:
+        return render(request, 'accesoDenegado.html')
+    else:
+        consulta = configPuerto.objects.all()
+        return render(request, "Configuracion.html", {"puertos" : consulta})
+    
+def rootUrl(request):
+    u = usuario.objects.all()
+    if u.count() == 0:
+        print('firstrun')
+        return HttpResponseRedirect('/control/')
+    else:
+        return HttpResponseRedirect('/control/')

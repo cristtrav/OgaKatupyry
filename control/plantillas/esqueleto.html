@@ -41,13 +41,19 @@
 					<h1 class="title">Oga Katupyry</h1>			 
 				</section>
 				
+				{% if 'ses_usuario' in request.session %}
+				 <section class="right" style='margin-right: 15px;'>
+       				 <a class="right-off-canvas-toggle" href="#"><span>{{ request.session.ses_usuario }}</span></a>
+     			 </section>
+     			 {% endif %}
+				
 			</nav>
 			
 			<aside class="left-off-canvas-menu">
 				<ul class="off-canvas-list">
 					<li><label>Configuración</label></li>
 					<li><a href="/control/">Control</a></li>
-					<li><a href="/Configuracion/">Configuracion de Puertos</a></li>
+					<li><a href="/configuracion/">Configuracion de Puertos</a></li>
 					<li><a href="/usuarios/">Usuarios</a></li>
 					<li><a href="/acerca/">Acerca</a></li>
 					{% if 'ses_usuario' in request.session %}

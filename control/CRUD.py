@@ -52,7 +52,7 @@ def CRUD(request):
                 else:
                     cfg_puertos = configPuerto(puertoon = puertoon, puertooff = puertoof,  descripcion = descripcion)
                     cfg_puertos.save()
-                    return HttpResponseRedirect('/Configuracion/')
+                    return HttpResponseRedirect('/configuracion/')
             
             ###############################Delete####################################################################
             elif request.POST.has_key('idpuerto'):

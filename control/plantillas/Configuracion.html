@@ -14,36 +14,43 @@ $(document).ready(function(){
 
 });</script>
 <form class="form-horizontal" method="post" action="/CRUD/">{% csrf_token %}
+	
 <fieldset>
 
 <!-- Form Name -->
 <legend>Configuracion de Puertos</legend>
 
 <!-- Multiple Checkboxes (inline) -->
-<div >
-  <div>
+<div class='row text-center' >
+  <div class='medium-12 columns'>
+  	<div>
   <table>
-  <tr>
-  <td><strong>PUERTO ON</strong></td>
-  <td><strong>PUERTO OF</strong></td>
-  <td><strong>DESCRIPCION</strong></td>
-  </tr>
-  {% for puerto in puertos %}
-  <tr>
-      	<td><strong>{{ puerto.puertoon }}</strong></td>
-     	<td><strong>{{ puerto.puertooff }}</strong></td>
-     	<td><strong>{{ puerto.descripcion }}</strong></td>
-      <td><input type="checkbox" id="checkbox" name="idpuerto" value="{{ puerto.id }}" >
-    <button id="comprobar" name="comprobar"   class="btn btn-danger">Eliminar</button><p/><p/></td>
-    </tr>
-    {% endfor %}
+	  <tr>
+	  <td><strong>PUERTO ON</strong></td>
+	  <td><strong>PUERTO OFF</strong></td>
+	  <td><strong>DESCRIPCION</strong></td>
+	  </tr>
+	  {% for puerto in puertos %}
+	  	<tr>
+	      	<td><strong>{{ puerto.puertoon }}</strong></td>
+	     	<td><strong>{{ puerto.puertooff }}</strong></td>
+	     	<td><strong>{{ puerto.descripcion }}</strong></td>
+	      	<td><input type="checkbox" id="checkbox" name="idpuerto" value="{{ puerto.id }}" >
+		    <button id="comprobar" name="comprobar" class="btn btn-danger">Eliminar</button></td>
+	    </tr>
+       {% endfor %}
     </table>
+   </div>
   </div>
 </div>
 </fieldset>
 </form>
-<center><form>
-<button id="singlebutton" style="background-color: green;" formaction="/savePuertos/" class="btn btn-primary">Nuevo</button>
-    <button id="button1id" formaction="/update/"  class="btn btn-inverse">Modificar</button>
-</form></center>
+<div class='row text-center'>
+	<div class='medium-12 columns'>
+	<form>
+		<button id="singlebutton" style="background-color: green;" formaction="/savePuertos/" class="btn btn-primary">Nuevo</button>
+    	<!--<button id="button1id" formaction="/update/"  class="btn btn-inverse">Modificar</button>-->
+	</form>
+	</div>
+</div>
 {% endblock %}

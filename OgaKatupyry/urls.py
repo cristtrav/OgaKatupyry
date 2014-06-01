@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from control.views import control, accionarControl, acerca, loginget, cerrarses, users, editUsers, newUsers, processUser, eliminarUser, savePuertos, configuracion, update, deleteall
+from control.views import control, accionarControl, acerca, loginget, cerrarses, users, editUsers, newUsers, processUser, eliminarUser, savePuertos, configuracion, update, deleteall, rootUrl
 from control.CRUD import CRUD
 
 #admin.autodiscover()
@@ -18,9 +18,10 @@ urlpatterns = patterns('',
     url(r'^usuarios/procesar/$', processUser),
     url(r'^savePuertos/$', savePuertos),
     url(r'CRUD/$', CRUD),
-    url(r'^Configuracion/$', configuracion),
+    url(r'^configuracion/$', configuracion),
     url(r'^update/$', update),
     url(r'^deleteall/$', deleteall),
+    url(r'^$', rootUrl),
     # Examples:
     #string parameter: (?P<accion>[\w\-]+)
     # url(r'^$', 'OgaKatupyry.views.home', name='home'),
