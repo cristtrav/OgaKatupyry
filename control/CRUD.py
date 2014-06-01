@@ -54,8 +54,8 @@ def CRUD(request):
                     cfg_puertos.save()
                     if gpio_disponible:
                         GPIO.setwarnigs(False)
-                        GPIO.setup(cfg_puertos.puertoon)
-                        GPIO.setup(cfg_puertos.puertooff)
+                        GPIO.setup(cfg_puertos.puertoon, GPIO.OUT)
+                        GPIO.setup(cfg_puertos.puertooff, GPIO.OUT)
                     else:
                         print('RPi.GPIO No instalado, no se puede configurar el puerto')
                     return HttpResponseRedirect('/configuracion/')
