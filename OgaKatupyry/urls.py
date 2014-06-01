@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from control.views import control, accionarControl, acerca, loginget, cerrarses, users, editUsers, newUsers, processUser, eliminarUser, savePuertos, configuracion, update, deleteall
-
+from control.CRUD import CRUD
 
 #admin.autodiscover()
 

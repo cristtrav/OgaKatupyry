@@ -31,7 +31,7 @@ $(document).ready(function(){
   {% for puerto in puertos %}
   <tr>
       	<td><strong>{{ puerto.puertoon }}</strong></td>
-     	<td><strong>{{ puerto.puertoof }}</strong></td>
+     	<td><strong>{{ puerto.puertooff }}</strong></td>
      	<td><strong>{{ puerto.descripcion }}</strong></td>
       <td><input type="checkbox" id="checkbox" name="idpuerto" value="{{ puerto.id }}" >
     <button id="comprobar" name="comprobar"   class="btn btn-danger">Eliminar</button><p/><p/></td>

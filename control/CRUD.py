@@ -26,18 +26,18 @@ def CRUD(request):
                     bart = configPuerto.objects.filter(puertoon = puertoon)
                     print ("p1")
                     return render(request, "savePuertos.html", {"opciones" : bart,'mesage':'Puerto ON ya estan en uso'} )
-                elif configPuerto.objects.filter(puertoof = puertoon):
+                elif configPuerto.objects.filter(puertooff = puertoon):
                     bart = configPuerto.objects.filter(puertoon = puertoon)
                     print ("p2")
                     return render(request, 'savePuertos.html', {"opciones" : bart,'mesage' : 'El puerto ya esta en uso'})
-                elif configPuerto.objects.filter(puertoof = puertoof):
+                elif configPuerto.objects.filter(puertooff = puertoof):
                     bart = configPuerto.objects.all()
                     return render (request, 'savePuertos.html', {"opciones" : bart,'mesage' : 'El puerto ya esta en uso'})
                 elif configPuerto.objects.filter(descripcion = descripcion):
                     bart = configPuerto.objects.all()
                     print ("p3")
                     return render(request, 'savePuertos.html', { "opciones" : bart, 'mesage': 'la descripcion ya existe'})
-                elif configPuerto.filter(puertoof = puertoon):
+                elif configPuerto.objects.filter(puertooff = puertoon):
                     bart = configPuerto.objects.all()
                     print("p4")
                     return render(request, 'savePuertos.html', {"opciones" : bart, 'mesage' : 'Los puertos no pueden coincidir'})
@@ -45,8 +45,12 @@ def CRUD(request):
                     bart = configPuerto.objects.all()
                     print("p5"  )
                     return render(request, 'savePuertos.html', {"opciones" : bart, 'mesage' : 'La descripcion esta vacia'})
+                elif (puertoon == puertoof):
+                    bart = configPuerto.objects.all()
+                    print ("p6")
+                    return render (request, 'savePuertos.html', {"opciones": bart, 'mesage' : 'Los puertos no pueden coincidir'})
                 else:
-                    cfg_puertos = configPuerto(puertoon = puertoon, puertoof = puertoof,  descripcion = descripcion)
+                    cfg_puertos = configPuerto(puertoon = puertoon, puertooff = puertoof,  descripcion = descripcion)
                     cfg_puertos.save()
                     return HttpResponseRedirect('/Configuracion/')
             
@@ -88,7 +92,7 @@ def CRUD(request):
                             cfg_puertos = configPuerto.objects.filter(id = puerto).first()
                             print ("kjhk,jhklj" +str(cfg_puertos.id))
                             puertoenc = cfg_puertos.puertoon
-                            puertoapag = cfg_puertos.puertoof
-                            cfg_puertos = configPuerto(id = puerto, puertoon = puertoenc, puertoof = puertoapag, descripcion = newdts )
+                            puertoapag = cfg_puertos.puertooff
+                            cfg_puertos = configPuerto(id = puerto, puertoon = puertoenc, puertooff = puertoapag, descripcion = newdts )
                             cfg_puertos.save()
                             return HttpResponseRedirect('/Configuracion/')

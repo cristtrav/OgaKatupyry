@@ -155,6 +155,7 @@ def update(request):
         query = configPuerto.objects.all()
         return render(request, 'update.html', {"puertos" : query } )
 
+
 def deleteall(request):
     del_puertos = configPuerto.object.all().delete()
     return render (request, "Configuracion.html")
