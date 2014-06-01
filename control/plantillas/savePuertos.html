@@ -1,0 +1,129 @@
+{% extends "esqueleto.html" %}
+{% block titulo %} - Puertos{% endblock %}
+{% block cuerpo %}
+<form class="form-horizontal" action="/CRUD/" method="post" onsubmit="validacion()">{%csrf_token%}
+<fieldset>
+
+<!-- Form Name -->
+<legend>Agregar Puertos</legend>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput">Numero de Puerto ON</label>
+  {% if mesage %}
+  <small class="error"> {{ mesage }} </small>
+  {% endif %}
+  <div class="controls">
+ {% if opciones %}
+    <select name = "puertoon">
+    <option value="3">3{% for opcion in opciones %}{% if opcion.puertoon == 3 or opcion.puertooff == 3 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+    <option value="5">5{% for opcion in opciones %}{% if opcion.puertoon == 5 or opcion.puertooff == 5 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="7">7{% for opcion in opciones %}{% if opcion.puertoon == 7 or opcion.puertooff == 7 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="8">8{% for opcion in opciones %}{% if opcion.puertoon == 8 or opcion.puertooff == 8 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="10">10{% for opcion in opciones %}{% if opcion.puertoon == 10 or opcion.puertooff == 10 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="11">11{% for opcion in opciones %}{% if opcion.puertoon == 11 or opcion.puertooff == 11 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="12">12{% for opcion in opciones %}{% if opcion.puertoon == 12 or opcion.puertooff == 12 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="13">13{% for opcion in opciones %}{% if opcion.puertoon == 13  or opcion.puertooff == 13 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="15">15{% for opcion in opciones %}{% if opcion.puertoon == 15 or opcion.puertooff == 15 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="16">16{% for opcion in opciones %}{% if opcion.puertoon == 16 or opcion.puertooff == 16 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="18">18{% for opcion in opciones %}{% if opcion.puertoon == 18 or opcion.puertooff == 18 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="19">19{% for opcion in opciones %}{% if opcion.puertoon == 19 or opcion.puertooff == 19 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="21">21{% for opcion in opciones %}{% if opcion.puertoon == 21 or opcion.puertooff == 21 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="22">22{% for opcion in opciones %}{% if opcion.puertoon == 22 or opcion.puertooff == 22 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="24">24{% for opcion in opciones %}{% if opcion.puertoon == 24 or opcion.puertooff == 24 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="26">26{% for opcion in opciones %}{% if opcion.puertoon == 26 or opcion.puertooff == 26 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="23">23{% for opcion in opciones %}{% if opcion.puertoon == 23 or opcion.puertooff == 23 %}Ya esta en uso{%endif %}{% endfor %}</option>
+	</select>
+ {% else %}
+<select name = "puertoon">
+    <option value="3">3</option>
+    <option value="5">5</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="24">24</option>
+	<option value="26">26</option>
+	<option value="23">23</option>
+	</select>
+{% endif%}
+    <p class="help-block">*</p>
+  </div>
+</div>
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput">Numero de Puerto OF</label>
+  <div class="controls">
+ {% if opciones%}
+    <select name = "puertoof">
+    <option value="3">3{% for opcion in opciones %}{% if opcion.puertooff == 3 or opcion.puertoon == 3 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+    <option value="5">5{% for opcion in opciones %}{% if opcion.puertooff == 5 or opcion.puertoon == 5 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="7">7{% for opcion in opciones %}{% if opcion.puertooff == 7 or opcion.puertoon == 7 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="8">8{% for opcion in opciones %}{% if opcion.puertooff == 8 or opcion.puertoon == 8 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="10">10{% for opcion in opciones %}{% if opcion.puertooff == 10 or opcion.puertoon == 10 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="11">11{% for opcion in opciones %}{% if opcion.puertooff == 11 or opcion.puertoon == 11 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="12">12{% for opcion in opciones %}{% if opcion.puertooff == 12 or opcion.puertoon == 12 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="13">13{% for opcion in opciones %}{% if opcion.puertooff == 13 or opcion.puertoon == 13 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="15">15{% for opcion in opciones %}{% if opcion.puertooff == 15 or opcion.puertoon == 15 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="16">16{% for opcion in opciones %}{% if opcion.puertooff == 16 or opcion.puertoon == 16 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{% endif %}{% endfor %}</option>
+	<option value="18">18{% for opcion in opciones %}{% if opcion.puertooff == 18 or opcion.puertoon == 18 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="19">19{% for opcion in opciones %}{% if opcion.puertooff == 19 or opcion.puertoon == 19 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="21">21{% for opcion in opciones %}{% if opcion.puertooff == 21 or opcion.puertoon == 23 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="22">22{% for opcion in opciones %}{% if opcion.puertooff == 22 or opcion.puertoon == 22 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="24">24{% for opcion in opciones %}{% if opcion.puertooff == 24 or opcion.puertoon == 24 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="26">26{% for opcion in opciones %}{% if opcion.puertooff == 26 or opcion.puertoon == 26 %}<h1 style='color: red;'>&nbsp;&nbsp;Ya esta en uso</h1>{%endif %}{% endfor %}</option>
+	<option value="23">23{% for opcion in opciones %}{% if opcion.puertooff == 23 or opcion.puertoon == 23 %}Ya esta en uso{%endif %}{% endfor %}</option>
+	</select>
+{% else %}
+       <select name = "puertoof">
+    <option value="3">3</option>
+    <option value="5">5</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="24">24</option>
+	<option value="26">26</option>
+	<option value="23">23</option>
+	</select>
+{% endif%}
+    <p class="help-block">*</p>
+  </div>
+</div>
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput">Descripcion del Puerto</label>
+  <div class="controls">
+    <input id="descripcion" name="descripcion" type="text" placeholder="Pieza, Sala y otros" class="input-xlarge" >
+    <p class="help-block">*</p>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="control-group">
+  <label class="control-label" for="button1id"></label>
+  <div class="controls">
+    <button id="button1id" name="button1id" class="btn btn-success">Guardar</button>
+    <button id="button2id" formaction="/Configuracion/" class="btn btn-danger">Cancelar</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+{% endblock %}
