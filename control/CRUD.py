@@ -86,7 +86,7 @@ def CRUD(request):
                     else:
                          print("RPi.GPIO no instalado")       
                     '''
-                    return HttpResponseRedirect('/Configuracion/')
+                    return HttpResponseRedirect('/configuracion/')
             
             ################################UPDATE#########################################################################
             else:
@@ -104,4 +104,4 @@ def CRUD(request):
                             puertoapag = cfg_puertos.puertooff
                             cfg_puertos = configPuerto(id = puerto, puertoon = puertoenc, puertooff = puertoapag, descripcion = newdts )
                             cfg_puertos.save()
-                            return HttpResponseRedirect('/Configuracion/')
+                            return HttpResponseRedirect('/configuracion/')
