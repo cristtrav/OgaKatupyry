@@ -52,7 +52,7 @@ def CRUD(request):
                 else:
                     cfg_puertos = configPuerto(puertoon = puertoon, puertooff = puertoof,  descripcion = descripcion)
                     cfg_puertos.save()
-                    if gpio_instalado:
+                    if gpio_disponible:
                         GPIO.setup(cfg_puertos.puertoon)
                         GPIO.setup(cfg_puertos.puertooff)
                     else:
