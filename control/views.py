@@ -16,15 +16,15 @@ except ImportError:
 
 # Create your views here.
 def control(request):
-    loginStatus = request.session.get('ses_usuario','no_login')
-    print('Login status: '+loginStatus)
-    if loginStatus == 'no_login':
-        print('supuesto redirect')
-        return HttpResponseRedirect('/login/')
-    else:
-        cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
+    #loginStatus = request.session.get('ses_usuario','no_login')
+    #print('Login status: '+loginStatus)
+    i#f loginStatus == 'no_login':
+      #  print('supuesto redirect')
+       # return HttpResponseRedirect('/login/')
+    #else:
+    cfgpuertosbd = configPuerto.objects.all()#Se obtienen todos los puertos de la base de datos
         #Se envian como parametros a la plantilla el estado actual de los puertos y los puertos configurados para construir la pagina
-        return render(request, "control.html", {"puertos" : cfgpuertosbd})
+    return render(request, "control.html", {"puertos" : cfgpuertosbd})
      
 def accionarControl(request):
     print("accionarControl llamado")
