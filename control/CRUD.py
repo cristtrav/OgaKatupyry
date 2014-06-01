@@ -5,7 +5,7 @@ from models import configPuerto
 from django.shortcuts import render_to_response
 from django.db.utils import OperationalError
 try:
-    import RPi.GPIO
+    import RPi.GPIO as GPIO
     gpio_disponible = True
 except ImportError:
     gpio_disponible = False
